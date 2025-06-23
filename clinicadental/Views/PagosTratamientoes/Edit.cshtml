@@ -1,0 +1,29 @@
+﻿@model clinicadental.Models.PagosTratamiento
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdPagoTratamiento" />
+            <input type="hidden" asp-for="IdTratamiento" />
+            <div class="form-group">
+                <label asp-for="Monto" class="control-label"></label>
+                <input asp-for="Monto" class="form-control" />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaPago" class="control-label"></label>
+                <input type="date" asp-for="FechaPago" class="form-control" />
+                <span asp-validation-for="FechaPago" class="text-danger"></span>
+            </div>          
+        
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,89 @@
+﻿@model clinicadental.Models.Historialclinico
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var codigoPaciente = ViewBag.codigoPaciente;
+}
+<h1 class="text-center">MODIFICAR HISTORIAL CLINICO</h1>
+
+<div class="  fondo-historial">
+    <div class="card-header cabecera-card">
+        <h4>Historialclinico</h4>
+    </div>
+    <div class="card-body bg-white">
+        <form asp-action="Edit" id="formModificarHistorialClinica">
+            <div class="d-flex flex-column">
+                <div class="row">               
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="IdHistorialClinico" value="@Model.IdHistorialClinico" type="hidden" />
+                    <input asp-for="IdPaciente" value="@Model.IdPaciente" type="hidden"/>
+                    <input asp-for="IdAntecedenteGeneral" value="@Model.IdAntecedenteGeneral" type="hidden" />
+                    <input asp-for="FechaCreacionHistorial" type="hidden"/>
+                    <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                        <label asp-for="Ci" class="control-label"></label>
+                        <input asp-for="Ci" class="form-control" />
+                        <span asp-validation-for="Ci" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-9 col-lg-9">
+                        <label asp-for="MotivoCita" class="control-label"></label>
+                        <input asp-for="MotivoCita" class="form-control" />
+                        <span asp-validation-for="MotivoCita" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Antecedentepatologico/Edit.cshtml" model="Model.IdAntecedentePatologicoNavigation"></partial>
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Examenextraorals/Edit.cshtml" model="Model.IdExamenExtraOralNavigation"></partial>
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Examenintraorals/Edit.cshtml" model="Model.IdExamenIntraoralNavigation"></partial>
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Antecedentebucodentals/Edit.cshtml" model="Model.IdAntecedenteBucoDentalNavigation"></partial>
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Antecedentehigieneorals/Edit.cshtml" model="Model.IdAntecedenteHigieneOralNavigation"></partial>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observacion" class="control-label"></label>
+                        <input asp-for="Observacion" class="form-control" />
+                        <span asp-validation-for="Observacion" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class=" d-flex flex-column">
+                    <br />
+                    <div class="row">
+                        <div class="col-auto">
+                            <a asp-controller="Pacientes" asp-action="Details" asp-route-codigoPaciente="@codigoPaciente" class="btn btn-outline-dark fondo-historial">Volver</a>
+                        </div>
+                        <div class=" col-auto form-group">
+                            <button type="submit" value="Modificar" class="btn btn-primary fondo-historial" id="btnModificarHistorialClinica">Modificar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#formModificarHistorialClinica').on('submit', function () {
+            var boton = $('#btnModificarHistorialClinica');
+            boton.prop('disabled', true);
+            boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Modificando...');
+
+            setTimeout(function () {
+                boton.prop('disabled', false);
+                boton.html('Modificar');
+            }, 5000); // 5000 milisegundos = 5 segundos
+        });
+    });
+</script>
+
+
+
+

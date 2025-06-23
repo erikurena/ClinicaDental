@@ -1,0 +1,95 @@
+﻿@model clinicadental.Dtos.CuentaDto
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/Login.css" />
+
+</head>
+<body class=" fondo ">
+    <!-- Login 9 - Bootstrap Brain Component -->
+    <section class="primarySeccion py-3  ">
+        <div class="container ">
+            <div class="row gy-4 align-items-center">
+                <div class="col-12 col-md-6 col-xl-7">
+                    <div class="d-flex justify-content-center text-bg-primary">
+                        <div class="col-12 col-xl-9">
+                            <div class="d-flex flex-column">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <img class="img-fluid rounded mt-4" loading="lazy" src="~/Photos/LogosClinica/hdentlogo.png" width="80" height="80" alt="BootstrapBrain Logo">
+                                    </div>
+                                    <div class="col-auto align-content-end ">
+                                        <h2 class="m-0 titulologin" style="font-size:60px; font-family: tituloCurvo;">Healthy Dent.</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="border-primary-subtle mb-4">
+                            <h2 class="h1 mb-4 textologin">
+                                Creamos experiencias digitales que hacen brillar tu trabajo, inspirando con tecnología que te potencia.
+                            </h2>
+                         
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-5 d-flex pt-sm-0 mt-sm-0 pt-xl-5 mt-xl-5 pt-md-5 mt-md-5">
+                    <div class=" border-0  shadow-lg fondoFormLogin rounded-3 ">
+                        <div class="card-body p-3 p-md-4 ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-4">
+                                        <h3>Iniciar Sesión</h3>
+                                        <p>No tienes una cuenta? <a asp-action="Create" asp-controller="Cuentums">Registrate</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form asp-action="IniciarSesion" asp-controller="Cuentums" method="post">
+                                <div class="row gy-3 overflow-hidden">
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" name="Email" id="Email" placeholder="name@example.com" required>
+                                            <label for="Email" class="form-label">Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" required>
+                                            <label for="password" class="form-label">Password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-grid">
+                                            <button class="btn btn-primary btn-lg" type="submit">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end mt-4">
+                                        <a asp-action="RestorePassword" asp-controller="Cuentums" class="">Olvidaste tu Contraseña</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<clinicadental.Models.Odontograma>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NroPiezaDental)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaraPiezaDental)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdAfeccionNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NroPiezaDental)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaraPiezaDental)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdAfeccionNavigation.IdAfeccion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdOdontograma">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdOdontograma">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdOdontograma">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

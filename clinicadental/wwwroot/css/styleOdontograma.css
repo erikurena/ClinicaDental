@@ -1,0 +1,83 @@
+
+.leyenda-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+.color-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilos para los canvas de adultos */
+#camada1OdontogramaAdultos { z-index: 1; }
+#camada2OdontogramaAdultos { z-index: 2; }
+#camada3OdontogramaAdultos { z-index: 3; }
+
+/* Estilos para los canvas de niños */
+#camada1OdontogramaNinos { z-index: 1; }
+#camada2OdontogramaNinos { z-index: 2; }
+#camada3OdontogramaNinos { z-index: 3; }
+
+canvas {
+    position: absolute;  
+}
+/* Ajustar el contenedor de los canvas */
+#canva-group-adultos {
+    display: flex;
+    justify-content: center; /* centra horizontalmente */
+    height: 240px; /* Ajustado a la altura de referencia del JS */
+}
+@media (max-width: 1124px) {
+    #canva-group-adultos {
+        height: 170px;     
+    }
+}
+/* Ajustar el contenedor de los canvas para pantallas pequeñas */
+@media (max-width: 768px) {
+    #canva-group-adultos {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .contenedorOdontograma {
+      
+        min-width: 600px;
+    }
+}
+#canva-group-ninos {
+    position: relative;
+    height: 230px; /* Ajustado a la altura de referencia del JS */
+    text-align: left;
+    width: 70%;
+}
+.controles {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #f8f9fa;
+    padding: 20px;
+}
+.tablaafeccion {
+    margin-top: 20px; /* Reducido para que quepa mejor en las pestañas */
+}
+.col-12 {
+    max-width: 100%;
+}
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+}
+/* Ajustar el contenido dentro de las pestañas */
+.tab-content {
+    padding: 20px;
+}
+/* Asegurar que las pestañas sean visibles */
+.nav-tabs .nav-link {
+    color: #d94141;
+}
+
+

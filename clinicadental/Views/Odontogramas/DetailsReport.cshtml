@@ -1,0 +1,97 @@
+﻿@model List<clinicadental.Dtos.OdontogramaReportDto>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Partial.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/styleOdontograma.css" />
+
+
+<div class="container-fluid mt-3">
+    <div class=" text-center ">
+        <div class=" p-0">
+            <!-- Odontograma Adultos -->
+            <h4 class="mt-4">Odontograma Adultos</h4>
+            <div class="row justify-content-center">
+                <div class="col-auto d-flex flex-column align-items-center " id="canva-group-adultos">
+                    <canvas id="camada1OdontogramaAdultos"></canvas>
+                    <canvas id="camada2OdontogramaAdultos"></canvas>
+                </div>
+            </div>
+            <div class="row tablaafeccion  justify-content-center ">
+                <div class="col-7 p-3  text-center">
+                    <h5>Procedimientos Registrados</h5>
+                    <div class="table-responsive ">
+                        <table class="table table-bordered table-striped ">
+                            <thead>
+                                <tr>
+                                    <th>Diente</th>
+                                    <th>Cara</th>
+                                    <th>Afección</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyProcedimentosAdultos" class="w-100 h-100">
+                                <!-- Filas cargadas dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Odontograma Niños -->
+            <h4 class="mt-5">Odontograma Niños</h4>
+            <div class="row justify-content-center">
+                <div class="col-auto d-flex flex-column align-items-center" id="canva-group-ninos">
+                    <canvas id="camada1OdontogramaNinos"></canvas>
+                    <canvas id="camada2OdontogramaNinos"></canvas>
+                </div>
+            </div>
+            <div class="row tablaafeccion  justify-content-center">
+                <div class="col-7 p-3">
+                    <h5>Procedimientos Registrados</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Diente</th>
+                                    <th>Cara</th>
+                                    <th>Afección</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyProcedimentosNinos">
+                                <!-- Filas cargadas dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/odontadultdetails.js" asp-append-version="true"></script>
+    <script src="~/js/odontninosdetails.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        var odontogramaData = @Html.Raw(Json.Serialize(Model));
+        window.idHistorialClinico = @ViewBag.IdHistorialClinico;
+
+        $(document).ready(function () {
+            console.log("Odontograma Data:", odontogramaData);
+            console.log("IdHistorialClinico:", window.idHistorialClinico);
+
+            if (odontogramaData && odontogramaData.length > 0) {
+                cargarDatosOdontograma(odontogramaData);
+                cargarDatosOdontogramaNinos(odontogramaData);
+            } else {
+                console.error("No hay datos de odontograma para procesar.");
+            }
+        });
+    </script>
+}

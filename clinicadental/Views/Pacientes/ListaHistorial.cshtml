@@ -1,0 +1,198 @@
+﻿    @model clinicadental.Dtos.PacienteHistorialDto
+
+@{
+    ViewData["Title"] = "ListaHistorial";
+    Layout = "";
+}
+
+<partial name="_Toasts"></partial>
+
+<table class="table table-hover fondo-historial border-redondo ">
+        <thead class="card-header  ">
+            <tr>
+                <th></th>
+                <th>Fecha de Registro</th>
+                <th>Motivo de Consulta</th>
+                <th></th>
+
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="color-white ">
+            @foreach (var item in Model.Historiales)
+            {
+                <tr class="" data-id="@item.IdHistorial">
+                    <td class="col-auto">
+                        <div class="btn-group dropend fondo-historial" style="background-color:#2e7d7b; ">
+                            <button type="button" class="btn fondo-historial " data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a asp-controller="Historialclinicoes" asp-action="Edit" asp-route-id="@item.IdHistorial" class="dropdown-item">
+                                        <i class="bi bi-pencil-square fs-5"></i> Modificar Historial Clinico
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item copiar-historial bloqueo-boton" data-id="@item.IdHistorial">
+                                        <i class="bi bi-copy fs-5"></i> Copiar Historia Clinica
+                                    </a>
+                                </li>
+                                <li>
+                                    <button data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="@item.IdHistorial" class="dropdown-item delete-historial-btn">
+                                        <i class="bi bi-trash-fill fs-5"></i> Eliminar Historia Clinica
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="col-2 align-content-center">
+                        @Html.DisplayFor(modelItem => item.FechaHistorial)
+                    </td>
+                    <td class="col-6 align-content-center">
+                        @Html.DisplayFor(modelItem => item.MotivoCita)
+                    </td>
+
+                    <td class="col-1">
+                        <a asp-controller="Odontogramas" asp-action="Create" asp-route-id="@item.IdHistorial" class="btn btn-odontograma fondo-historial" title="Odontograma">
+                            <i class="bi bi-grid-3x2-gap-fill"></i>
+                        </a>
+                    </td>
+                    <td class="col-1">
+                        <a asp-controller="Tratamientoes" asp-action="Details" asp-route-id="@item.IdHistorial" class="btn  btn-tratamientos fondo-historial" title="Tratamiento">
+                            <i class="bi bi-journal-plus"></i>
+                        </a>
+                    </td>
+                    <td class="col-1">
+                        <a asp-controller="Historialclinicoes" asp-action="Details" asp-route-id="@item.IdHistorial" class="btn btn-reporte-historial fondo-historial" title="Detalle">
+                            <i class="bi bi-arrows-angle-expand"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="deleteForm">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Delegación para botón eliminar (en tabla y nuevos elementos)
+        $(document).on('click', '.delete-historial-btn', function () {
+            var historialId = $(this).data('id');
+            $('#deleteForm').data('id', historialId);
+        });
+
+        // Evento para confirmar eliminación
+        $('#deleteForm').on('click', function () {
+            var historialId = $(this).data('id');
+            $.ajax({
+                url: '@Url.Action("Delete", "Historialclinicoes")',
+                type: 'POST',
+                data: { id: historialId },
+                success: function () {
+                    $(`tr[data-id="${historialId}"]`).remove();
+                    $('#confirmDeleteModal').modal('hide');
+                    const successToast = new bootstrap.Toast(document.getElementById('successToastDelete'));
+                    successToast.show();
+                },
+                error: function (xhr) {
+                    console.error('Error al eliminar:', xhr.responseText);
+                    const errorToast = new bootstrap.Toast(document.getElementById('errorToastDelete'));
+                    errorToast.show();                   
+                }
+            });
+        });
+
+        // Delegación para botón copiar (en tabla y nuevos elementos)
+        $(document).on('click', '.copiar-historial', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+
+            $.ajax({
+                url: '@Url.Action("CopiarHistorial", "Historialclinicoes")',
+                type: 'GET',
+                data: { id: id },
+                success: function (data) {
+                    if (data.success) {
+                        const nuevaFila = `
+                                    <tr data-id="${data.id}">
+                                        <td class="col-auto">
+                                            <div class="btn-group dropend fondo-historial" style="background-color:#2e7d7b;">
+                                                <button type="button" class="btn fondo-historial" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="/Historialclinicoes/Edit/${data.id}" class="dropdown-item">
+                                                            <i class="bi bi-pencil-square fs-5"></i> Modificar Historial Clinico
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-item copiar-historial" data-id="${data.id}">
+                                                            <i class="bi bi-copy fs-5"></i> Copiar Historia Clinica
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <button data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="${data.id}" class="dropdown-item delete-historial-btn">
+                                                            <i class="bi bi-trash-fill fs-5"></i> Eliminar Historia Clinica
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td class="col-2">${data.fecha}</td>
+                                        <td class="col-6">${data.motivo}</td>
+                                        <td class="col-1">
+                                            <a href="/Odontogramas/Create/${data.id}" class="btn btn-odontograma fondo-historial" title="Odontograma">
+                                                <i class="bi bi-grid-3x2-gap-fill"></i>
+                                            </a>
+                                        </td>
+                                        <td class="col-1">
+                                            <a href="/Tratamientoes/Details/${data.id}" class="btn btn-tratamientos fondo-historial" title="Tratamiento">
+                                                <i class="bi bi-journal-plus"></i>
+                                            </a>
+                                        </td>
+                                        <td class="col-1">
+                                            <a href="/Historialclinicoes/Details/${data.id}" class="btn btn-reporte-historial fondo-historial" title="Detalle">
+                                                <i class="bi bi-arrows-angle-expand"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                `;
+                        $('tbody').append(nuevaFila);
+                        const successToast = new bootstrap.Toast(document.getElementById('successToastCopiar'));
+                        successToast.show();
+                    }
+                },
+                error: function (xhr) {
+                    console.error('Error al copiar historial:', xhr.responseText);
+                    const errorToast = new bootstrap.Toast(document.getElementById('errorToastCopiar'));
+                    errorToast.show();
+                }
+            });
+        });
+
+    });
+</script>

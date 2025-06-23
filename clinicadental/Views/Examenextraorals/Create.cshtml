@@ -1,0 +1,33 @@
+﻿@model clinicadental.Models.Examenextraoral
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+}
+
+<h4>Examenextraoral</h4>
+<hr />
+<div class="d-flex flex-column">
+    <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Atm" class="control-label"></label>
+                <input asp-for="Atm" class="form-control" />
+                <span asp-validation-for="Atm" class="text-danger"></span>
+            </div>
+        <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="GanglioLinfatico" class="control-label"></label>
+                <input asp-for="GanglioLinfatico" class="form-control" />
+                <span asp-validation-for="GanglioLinfatico" class="text-danger"></span>
+            </div>
+        <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="IdRespiracion" class="control-label"></label>
+            <select asp-for="IdRespiracion" class="form-control form-select" asp-items="ViewBag.IdRespiracion"></select>
+            </div>
+        <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Otro" class="control-label"></label>
+                <input asp-for="Otro" class="form-control" />
+                <span asp-validation-for="Otro" class="text-danger"></span>
+            </div>
+    </div>
+</div>

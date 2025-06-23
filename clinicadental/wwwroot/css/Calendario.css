@@ -1,0 +1,8 @@
+﻿.calendarioCss{
+    min-height: 600px;
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+    .calendarioCss {
+        min-height: 800px;
+    }
+}

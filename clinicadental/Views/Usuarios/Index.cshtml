@@ -1,0 +1,62 @@
+﻿@model IEnumerable<clinicadental.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center display-4">LISTA DE USUARIOS</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-agregar"><i class="bi bi-person-add"></i> Crear Nuevo</a>
+</p>
+<table class="table">
+    <thead class="card-header">
+        <tr>           
+            <th>
+                    @Html.DisplayNameFor(model => model.ApellidoPaterno)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.ApellidoMaterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrimerNombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SegundoNombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Celular)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="">
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrimerNombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SegundoNombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Celular)
+            </td>
+           
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdUsuario" class="btn fondo-historial btn-historial" title="Modificar"><i class="bi bi-person-fill-gear fs-5"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.IdUsuario" class="btn btn-outline-dark fondo-historial border-0" title="Detalles"><i class="bi bi-info-circle fs-5"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdUsuario" class="btn btn-outline-danger fondo-historial btn-eliminar border-0" title="Eliminar"><i class="bi bi-trash-fill fs-5"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

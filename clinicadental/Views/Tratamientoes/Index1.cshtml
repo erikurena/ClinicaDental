@@ -1,0 +1,540 @@
+﻿este es el codigo original, de nuevo adaptalo a los requerimientos que te pedi:
+@model clinicadental.Models.Tratamiento
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">TRATAMIENTO PACIENTE</h1>
+
+<input asp-for="IdHistorialClinico" value="@ViewBag.IdHistorial" type="hidden" id="idHistorialClinico" />
+<div class="d-flex flex-column">
+    <div class="row">
+        @*  @if (Model.IdHistorialClinico == 0)
+        {  *@
+        <div class="col-auto ">
+            <button id="btnNuevoTratamiento" type="button" class="btn btn-agregar" data-bs-toggle="modal" data-bs-target="#tratamiento">
+                Nuevo Tratamiento
+            </button>
+            <div class="modal fade" id="tratamiento" tabindex="-1" aria-labelledby="tratamientoLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <form id="tratamientoForm" asp-action="Create" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tratamientoLabel">Nuevo Tratamiento</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <partial name="~/Views/Tratamientoes/Create.cshtml" model="new Tratamiento()" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*    }  *@
+        @* @if (Model.IdHistorialClinico > 0)
+        { *@
+        <div class="col-auto">
+            <button id="btnEditarTratamiento" type="button" class="btn btn-outline-info fondo-historial" data-bs-toggle="modal" data-bs-target="#editTratamientoModal">
+                Editar Tratamiento
+            </button>
+            <div class="modal fade" id="editTratamientoModal" tabindex="-1" aria-labelledby="editTratamientoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editTratamientoModalLabel">Editar Tratamiento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="editTratamientoModalBody">
+                            <!-- Contenido cargado dinámicamente por AJAX -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*   } *@
+
+        @* @if (Model.IdHistorialClinico > 0)
+        { *@
+
+        @*  } *@
+    </div>
+</div>
+<br />
+<!-- DETALLES DEL TRATAMIENTO -->
+<div class="card fondo-historial ">
+    <div class="card-header">
+        <h4>Tratamiento</h4>
+    </div>
+    <div class="card-body">
+        <div id="tratamientoDetails">
+            <dl class="row">
+                <dt class="col-sm-2 d-none">
+                    @Html.DisplayNameFor(model => model.IdTratamiento)
+                </dt>
+                <dd class="col-sm-10 d-none">
+                    @Html.DisplayFor(model => model.IdTratamiento)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Subjetivo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Subjetivo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Objetivo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Objetivo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Analisis)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Analisis)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PlanAccion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PlanAccion)
+                </dd>
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.FechaTratamiento)
+                </dt>
+                <dd class="col-2">
+                    @Html.DisplayFor(model => model.FechaTratamiento)
+                </dd>
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.TratamientoConcluido)
+                </dt>
+                <dd class="col-2">
+                    @Html.DisplayFor(model => model.TratamientoConcluido)
+                </dd>
+                <dt class="col-2 d-none">
+                    @Html.DisplayNameFor(model => model.IdHistorialClinicoNavigation)
+                </dt>
+                <dd class="col-2 d-none">
+                    @Html.DisplayFor(model => model.IdHistorialClinicoNavigation.IdHistorialClinico)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<br />
+<div class="col-auto">
+    <button type="button" class="btn btn-success   fondo-historial" data-bs-toggle="modal" data-bs-target="#avancetratamiento">
+        Nuevo Avance Tratamiento
+    </button>
+    <div class="modal fade" id="avancetratamiento" tabindex="-1" aria-labelledby="avanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="avanceModalLabel">Añadir pieza a tratar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Contenido cargado dinámicamente por AJAX -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN PARA MOSTRAR AVANCES -->
+<div id="avancesList">
+    <h2 class="text-center">AVANCES DE TRATAMIENTO</h2>
+    <table class="table  table-hover ">
+        <thead class="card-header">
+            <tr>
+                <th class="col-1">Fecha Inicio</th>
+                <th class="col-1">Fecha Conclusión</th>
+                <th class="col-auto">Pieza Dental</th>
+                <th class="col-auto">Tratamiento</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="avancesTableBody" class="">
+            @if (Model?.Avancetratamientos != null)
+            {
+                foreach (var avance in Model.Avancetratamientos)
+                {
+                    <tr data-id="@avance.IdAvanceTratamiento">
+                        <td class="col-1">@avance.FechaInicio?.ToString("dd/MM/yyyy")</td>
+                        <td class="col-1">@avance.FechaConclusion?.ToString("dd/MM/yyyy")</td>
+                        <td class="col d-flex" style="min-width: 16.6667%; min-height:50px;">@avance.PiezaDental</td>
+                        <td class="col-auto">@avance.Avance</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editAvanceModal" data-id="@avance.IdAvanceTratamiento">
+                                <i class="bi bi-pencil-square  fs-5" title="Modificar"></i>
+                            </button>
+                            <div class="modal fade" id="editAvanceModal" tabindex="-1" aria-labelledby="editAvanceModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editAvanceModalLabel">Editar Avance de Tratamiento</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" id="editAvanceModalBody">
+                                            <!-- Contenido cargado dinámicamente por AJAX -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger delete-avance-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@avance.IdAvanceTratamiento">
+                                <i class="bi bi-trash3-fill fs-5"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Move the delete modal outside the table (only one instance needed) -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este avance de tratamiento?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdTratamiento">Edit</a> |
+    <a onclick="window.history.back();">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let tratamientoId = @Model?.IdTratamiento ?? null; // Inicializar con el Id del modelo si existe
+
+            if (tratamientoId) {
+                $('#btnAvanceTratamiento').prop('disabled', false); // Habilitar botón si ya hay tratamiento
+            }
+
+            // Configurar el modal de eliminación dinámicamente
+            $('.delete-avance-btn').on('click', function () {
+                var avanceId = $(this).data('id');
+                $('#confirmDeleteBtn').data('id', avanceId); // Almacenar el ID en el botón de confirmación
+            });
+
+            // Manejar la confirmación de eliminación
+            $('#confirmDeleteBtn').on('click', function () {
+                var avanceId = $(this).data('id');
+
+                $.ajax({
+                    url: '@Url.Action("DeleteConfirmed", "Avancetratamientoes")',
+                    type: 'POST',
+                    data: { id: avanceId }, // Solo enviamos el ID
+                    success: function (response) {
+                        if (response.success) {
+                            // Eliminar la fila de la tabla
+                            $(`tr[data-id="${avanceId}"]`).remove();
+                            // Cerrar el modal
+                            $('#deleteModal').modal('hide');
+                            // Opcional: Mostrar mensaje de éxito
+                            // alert(response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error al intentar eliminar el avance.');
+                    }
+                });
+            });
+
+            $('#tratamiento').on('show.bs.modal', function () {
+                $.ajax({
+                    url: '@Url.Action("Create", "Tratamientoes")',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#tratamiento .modal-body').html(data);
+                        let idHistorial = $('#idHistorialClinico').val();
+                        if (idHistorial) {
+                            $('#IdHistorialClinico').val(idHistorial);
+                        }
+                    }
+                });
+            });
+
+            // Manejar el envío del formulario del primer modal
+            $('#tratamiento').on('submit', '#tratamientoForm', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Create", "Tratamientoes")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success && response.idTratamiento) {
+                            tratamientoId = response.idTratamiento;
+                            $('#tratamiento').modal('hide');
+                            $('#tratamientoForm')[0].reset();
+                            $('.text-danger').empty();
+                            updateTratamientoDetails(response.tratamiento);
+                            $('#btnAvanceTratamiento').prop('disabled', false); // Habilitar botón
+                        } else {
+                            $('#tratamiento .modal-body').html(response);
+                        }
+                    },
+                    error: function () {
+                        alert('Error al guardar el tratamiento');
+                    }
+                });
+            });
+
+            // Cargar vista parcial del segundo modal al abrirlo
+            $('#avancetratamiento').on('show.bs.modal', function () {
+                if (!tratamientoId) {
+                    $('#avancetratamiento').modal('hide'); // Cerrar el modal si no hay tratamientoId
+                    return;
+                }
+                console.log('tratamientoId:', tratamientoId);
+                $('#modalBody').html('<p>Cargando...</p>'); // Indicador de carga
+                $.ajax({
+                    url: '@Url.Action("Create", "Avancetratamientoes")' + '?id=' + tratamientoId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#avancetratamiento .modal-body').html(data);
+                        $('#modalBody').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar el modal:', status, error);
+                        $('#avancetratamiento .modal-body').html('<p>Error al cargar el formulario. Intenta de nuevo.</p>');
+                    }
+                });
+            });
+
+            // Limpiar el modal al cerrarlo (esto está bien, pero lo dejamos explícito)
+            $('#avancetratamiento').on('hidden.bs.modal', function () {
+                $('#avancetratamiento .modal-body').empty();
+            });
+            // Manejar el envío del formulario del segundo modal
+            $('#avancetratamiento').on('submit', '#avanceForm', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Create", "Avancetratamientoes")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#avancetratamiento').modal('hide');
+                            $('#avanceForm')[0].reset();
+                            $('.text-danger').empty();
+                            // Añadir el nuevo avance a la tabla
+                            addAvanceToTable(response.avance);
+                        } else {
+                            $('#avancetratamiento .modal-body').html(response);
+                        }
+                    },
+                    error: function () {
+                        alert('Error al guardar el avance de tratamiento');
+                    }
+                });
+            });
+
+            $('#avancetratamiento').on('hidden.bs.modal', function () {
+                $('#avancetratamiento .modal-body').empty();
+            });
+
+            // Cargar vista parcial del modal de edición al abrirlo
+            $('#editTratamientoModal').on('show.bs.modal', function () {
+                if (!tratamientoId) {
+                    alert('No hay un tratamiento para editar. Crea uno primero.');
+                    $('#editTratamientoModal').modal('hide');
+                    return;
+                }
+
+                $('#editTratamientoModalBody').html('<p>Cargando...</p>'); // Indicador de carga
+                $.ajax({
+                    url: '@Url.Action("Edit", "Tratamientoes")' + '?id=' + tratamientoId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#editTratamientoModalBody').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar el modal:', status, error);
+                        $('#editTratamientoModalBody').html('<p>Error al cargar el formulario. Intenta de nuevo.</p>');
+                    }
+                });
+            });
+
+            // Manejar el envío del formulario del modal de edición
+            $('#editTratamientoModal').on('submit', '#editTratamientoForm', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Edit", "Tratamientoes")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#editTratamientoModal').modal('hide');
+                            $('#editTratamientoForm')[0].reset();
+                            $('.text-danger').empty();
+                            // Actualizar los detalles del tratamiento en la vista
+                            updateTratamientoDetails(response.tratamiento);
+                        } else {
+                            $('#editTratamientoModalBody').html(response);
+                        }
+                    },
+                    error: function () {
+                        alert('Error al guardar los cambios del tratamiento');
+                    }
+                });
+            });
+
+            // Limpiar el modal al cerrarlo
+            $('#editTratamientoModal').on('hidden.bs.modal', function () {
+                $('#editTratamientoModalBody').empty();
+            });
+
+
+            // Función para actualizar los detalles del tratamiento
+            function updateTratamientoDetails(tratamiento) {
+                const details = $('#tratamientoDetails dl');
+                details.find('dd:eq(0)').text(tratamiento.idTratamiento || '');
+                details.find('dd:eq(1)').text(tratamiento.subjetivo || '');
+                details.find('dd:eq(2)').text(tratamiento.objetivo || '');
+                details.find('dd:eq(3)').text(tratamiento.analisis || '');
+                details.find('dd:eq(4)').text(tratamiento.planAccion || '');
+                details.find('dd:eq(5)').text(tratamiento.fechaTratamiento ? new Date(tratamiento.fechaTratamiento).toLocaleDateString() : '');
+                details.find('dd:eq(6)').text(tratamiento.tratamientoConcluido ? 'Sí' : 'No');
+                details.find('dd:eq(7)').text(tratamiento.idHistorialClinico || '');
+                $('a[asp-action="Edit"]').attr('asp-route-id', tratamiento.idTratamiento);
+            }
+
+            // Función para añadir un avance a la tabla
+            function addAvanceToTable(avance) {
+                const tableBody = $('#avancesTableBody');
+                const row = `
+                                                                <tr data-id="${avance.idAvanceTratamiento}">
+                                                                    <td>${avance.fechaInicio || ''}</td>
+                                                                    <td>${avance.fechaConclusion || ''}</td>
+                                                                    <td>${avance.piezaDental || ''}</td>
+                                                                    <td>${avance.avance || ''}</td>
+                                                                    <td>
+                                                                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editAvanceModal" data-id="${avance.idAvanceTratamiento}">
+                                                                                        <i class="bi bi-pencil-square  fs-5" title="Modificar"></i>
+                                                                                    </button>
+                                                                    </td>
+                                                                    <td>
+                                                                            <button type="button" class="btn btn-danger delete-avance-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="${avance.IdAvanceTratamiento}">
+                                                                                    <i class="bi bi-trash3-fill fs-5"></i>
+                                                                             </button>
+                                                                     </td>
+                                                                </tr>`;
+                tableBody.append(row);
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#editAvanceModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Botón que abrió el modal
+                var avanceId = button.data('id'); // Extraer el ID del avance
+
+                $('#editAvanceModalBody').html('<p>Cargando...</p>'); // Indicador de carga
+
+                $.ajax({
+                    url: '@Url.Action("Edit", "Avancetratamientoes")' + '?id=' + avanceId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#editAvanceModalBody').html(data);
+                    },
+                    error: function () {
+                        $('#editAvanceModalBody').html('<p>Error al cargar el formulario. Intenta de nuevo.</p>');
+                    }
+                });
+            });
+
+            // Manejar el envío del formulario de edición
+            $('#editAvanceModal').on('submit', '#editAvanceForm', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Edit", "Avancetratamientoes")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#editAvanceModal').modal('hide');
+                            $('#editAvanceForm')[0].reset();
+                            $('.text-danger').empty();
+                            // Actualizar la tabla con los datos editados
+                            updateAvanceInTable(response.avance);
+                        } else {
+                            $('#editAvanceModalBody').html(response);
+                        }
+                    },
+                    error: function () {
+                        alert('Error al guardar el avance de tratamiento');
+                    }
+                });
+            });
+
+            // Función para actualizar un avance en la tabla
+            function updateAvanceInTable(avance) {
+                var row = $('#avancesTableBody').find(`tr[data-id="${avance.idAvanceTratamiento}"]`);
+                if (row.length) {
+                    row.find('td:eq(0)').text(avance.fechaInicio || '');
+                    row.find('td:eq(1)').text(avance.fechaConclusion || '');
+                    row.find('td:eq(2)').text(avance.piezaDental || '');
+                    row.find('td:eq(3)').text(avance.avance || '');
+                } else {
+                    console.error(`No se encontró la fila con data-id="${avance.idAvanceTratamiento}"`);
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnNuevo = document.getElementById('btnNuevoTratamiento');
+            const btnEditar = document.getElementById('btnEditarTratamiento');
+            const listaTratamientos = document.getElementById('listaTratamientos'); // ID de tu <dl>
+
+            function verificarTratamientos() {
+                const texto = listaTratamientos.innerText || listaTratamientos.textContent;
+                if (texto.includes("No hay subjetivo")) {
+                    btnNuevo.disabled = false;
+                    btnEditar.disabled = true;
+                } else {
+                    btnNuevo.disabled = true;
+                    btnEditar.disabled = false;
+                }
+            }
+
+            verificarTratamientos(); // Comprobar al cargar la página
+
+            btnNuevo.addEventListener('click', function () {
+                btnNuevo.disabled = true;
+                btnEditar.disabled = true;
+            });
+
+            const modalNuevoTratamiento = document.getElementById('tratamiento');
+            modalNuevoTratamiento.addEventListener('hidden.bs.modal', function () {
+                verificarTratamientos(); // Verificar al cerrar el modal
+            });
+        });
+    </script>
+}

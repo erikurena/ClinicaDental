@@ -1,0 +1,44 @@
+﻿@model clinicadental.Models.PagosTratamiento
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form asp-action="Create" id="crearPagotratamiento" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="IdTratamiento" type="hidden" /> 
+            <div class="form-group col-12">
+                <label asp-for="Monto" class="control-label"></label>
+                <input asp-for="Monto" class="form-control" />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <label asp-for="FechaPago" class="control-label"> </label>
+                <input asp-for="FechaPago" class="form-control" type="date" />
+                <span asp-validation-for="FechaPago" class="text-danger"></span>
+            </div>
+             <br />
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="btncrearpago">Aceptar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#crearPagotratamiento').on('submit', function () {
+               var boton = $('#btncrearpago');
+               boton.prop('disabled', true);
+               boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creando...');
+
+               setTimeout(function () {
+                   boton.prop('disabled', false);
+                   boton.html('Aceptar');
+               }, 5000); // 5000 milisegundos = 5 segundos
+           });
+</script>
+   

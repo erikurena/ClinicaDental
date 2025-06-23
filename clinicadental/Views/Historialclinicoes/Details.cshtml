@@ -1,0 +1,295 @@
+﻿@model clinicadental.Dtos.HistorialclinicoDto
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Bootstrap 5 con JavaScript incluido (vía CDN) -->
+
+
+<div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-8">
+        <h1 class="text-center p-3 text-info">Reporte del Expediente Clinico</h1>
+    </div>
+    <div class="col-2">
+        <div class="mt-3 d-flex justify-content-center">
+            <button id="generatePdfButton" class="btn btn-agregar" data-id-historial="@ViewBag.IdHistorialClinico" name="Imprimir">
+                <i class="bi bi-printer fs-4"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-column">
+    <div class="  fondo-historial border-redondo">
+        <div class="card-header cabecera-card">
+            <div class="row">
+                <div class="col">
+                    Historialclinico
+                </div>
+            </div>
+        </div>
+        <div class="card-body bg-white">
+            <div class="row paciente">
+                <h5> PACIENTE </h5>
+                <ul>
+                    <li class="row">
+                        <p class="col-3 "><strong>Nombres </strong>  @Html.DisplayFor(model => model.Paciente.NombresDto)  </p>
+                        <p class="col-3"><strong>  Apellido Paterno </strong>  @Html.DisplayFor(model => model.Paciente.ApellidoPaternoDto) </p>
+                    </li>
+                </ul>
+                <h5>  EXAMEN EXTRA ORAL </h5>
+                <ul>
+                    <li class="row">
+                        <p class="col-3"><strong>Atm </strong>    @Html.DisplayFor(model => model.ExamenExtraOral.AtmDto)</p>
+                        <p class="col-3"><strong>   Ganglio Linfatico </strong>     @Html.DisplayFor(model => model.ExamenExtraOral.GanglioLinfaticoDto)</p>
+                        <p class="col-3"><strong>  Otro </strong>     @Html.DisplayFor(model => model.ExamenExtraOral.OtroDto) </p>
+                        <p class="col-3"><strong>    Tipo de Respiracion</strong>   @Html.DisplayFor(model => model.ExamenExtraOral.RespiracionDto.TipoRespiracionDto)  </p>
+                    </li>
+                </ul>
+                <h5> EXAMEN INTRA ORAL</h5>
+                <ul>
+                    <li class="row">
+                        <p class="col-3"><strong>  Encia </strong>  @Html.DisplayFor(model => model.ExamenIntraoral.EnciaDto) </p>
+                        <p class="col-3"><strong>  Labio </strong>    @Html.DisplayFor(model => model.ExamenIntraoral.LabioDto)  </p>
+                        <p class="col-3"><strong>  Lengua</strong>    @Html.DisplayFor(model => model.ExamenIntraoral.LenguaDto) </p>
+                        <p class="col-3"><strong>  Mucoya Yugal</strong>  @Html.DisplayFor(model => model.ExamenIntraoral.MucosaYugalDto)  </p>
+                        <p class="col-3"><strong>Paladar </strong>     @Html.DisplayFor(model => model.ExamenIntraoral.PaladarDto) </p>
+                        <p class="col-3"><strong>  Piso de la Boca</strong>@Html.DisplayFor(model => model.ExamenIntraoral.PisoDeBocaDto)  </p>
+                        <p class="col-3"><strong>    Protesis dental</strong>    @Html.DisplayFor(model => model.ExamenIntraoral.ProtesisDentalDto) </p>
+                    </li>
+                </ul>
+                <h5> ANTECEDENTE BUCODENTAL </h5>
+                <ul>
+                    <li class="row">
+                        <p class="col-3"><strong>    Ultima visita Dental </strong>  @Html.DisplayFor(model => model.AntecedenteBucoDental.UltimaVisitaDentalDto)  </p>
+                        <p class="col-3"><strong>  Otro </strong>      @Html.DisplayFor(model => model.AntecedenteBucoDental.OtroDto)</p>
+                        <p class="col-3"><strong> Fuma </strong>   @Html.DisplayFor(model => model.AntecedenteBucoDental.FumaDto) </p>
+                        <p class="col-3"><strong>  Bebe</strong>   @Html.DisplayFor(model => model.AntecedenteBucoDental.BebeDto) </p>
+                    </li>
+                </ul>
+                <h5>  ANTECEDENTE HIGIENEORAL</h5>
+                <ul>
+                    <li class="row">
+                        <p class="col-3"><strong>   Higiene Bucal </strong>  @Html.DisplayFor(model => model.AntecedenteHigieneOral.IdHigieneBucalDto) </p>
+                        <p class="col-3"><strong>    Frecuencia de Cepillado Dental</strong>  @Html.DisplayFor(model => model.AntecedenteHigieneOral.FrecuenciaCepilladoDentalDto) </p>
+                        <p class="col-3"><strong>   Usa Cepillo Dental</strong>    @Html.DisplayFor(model => model.AntecedenteHigieneOral.CepilloDentalDto) </p>
+                        <p class="col-3"><strong>  Usa Enjuague Bucal </strong>  @Html.DisplayFor(model => model.AntecedenteHigieneOral.EnjuagueBucalDto) </p>
+                        <p class="col-3"><strong>  Usa Hilo Dental </strong>   @Html.DisplayFor(model => model.AntecedenteHigieneOral.IdHiloDentalDto) </p>
+                        <p class="col-3"><strong>    Sangrado de Encias</strong>   @Html.DisplayFor(model => model.AntecedenteHigieneOral.SangradoEnciasDto)  </p>
+                    </li>
+                </ul>
+                <h5>  ANTECEDENTE PATOLOGICO</h5>
+                <ul>
+                    <li class="row">
+                        <p class="col-3"><strong>  Otro </strong> @Html.DisplayFor(model => model.AntecedentePatologico.OtroDto)  </p>
+                        <p class="col-3"><strong>  Antecedente Patologico Familiar </strong>  @Html.DisplayFor(model => model.AntecedentePatologico.AntecedentePatologicoFamiliarDto) </p>
+                        <p class="col-3"><strong>  Tratamientos Medicos? </strong>   @Html.DisplayFor(model => model.AntecedentePatologico.TratamientoMedicoDto)  </p>
+                        <p class="col-3"><strong>  Recibe Medicacion? </strong> @Html.DisplayFor(model => model.AntecedentePatologico.RecibeMedicacionDto) </p>
+                        <p class="col-3"><strong>   Enfermedades </strong>  </p>
+                        <div class="col-auto d-flex flex-row flex-wrap gap-3">
+                            @foreach (var item in Model.AntecedentePatologico.AntecedenteenfermedadDto)
+                            {
+                                <div class="  ">@item.EnfermerdadDto.EnfermedadDto  </div>
+                            }
+                        </div>
+                    </li>
+                </ul>
+                <h5>  ANTECEDENTE GENERAL </h5>
+                <ul>
+                    <li class="row">
+                        <p class="col-3"><strong>     Alergia</strong> @Html.DisplayFor(model => model.AntecedenteGeneral.AlergiaDto) </p>
+                        <p class="col-3"><strong>   Tipo Alergia</strong>   @Html.DisplayFor(model => model.AntecedenteGeneral.TipoAlergiaDto) </p>
+                        <p class="col-3"><strong>Hemorragia Dental </strong>    @Html.DisplayFor(model => model.AntecedenteGeneral.HemorragiaDentalDto) </p>
+                        <p class="col-3"><strong> Especificacion Hemorragia </strong>  @Html.DisplayFor(model => model.AntecedenteGeneral.EspecificacionHemorragiaDto)  </p>
+                        <p class="col-3"><strong>  Embarazo</strong>  @Html.DisplayFor(model => model.AntecedenteGeneral.EmbarazoDto)  </p>
+                        <p class="col-3"><strong>   Semana de Embarazo</strong>    @Html.DisplayFor(model => model.AntecedenteGeneral.SemanaEmbarazoDto)  </p>
+                    </li>
+                </ul>
+                <h6> </h6>
+                <ul>
+                    <li class="row">
+                        <p class="col-3"><strong> </strong>  </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <br />
+    <div class="  fondo-historial border-redondo">
+        <div class="card-header cabecera-card">
+            Odontograma
+        </div>
+        <div class="card-body bg-white">
+            @{
+                ViewBag.IdHistorialClinico = Model.Odontogramas.FirstOrDefault()?.IdHistorialClinico ?? 0;
+            }
+            <partial name="~/Views/Odontogramas/DetailsReport.cshtml" model="Model.Odontogramas.ToList()"></partial>
+        </div>
+    </div>
+    <br />
+    <div class="fondo-historial border-redondo">
+        <div class="card-header cabecera-card">
+            Tratamiento
+        </div>
+        <div class="card-body bg-white">
+            <div class="row">
+                @*  <div class="col-2">
+                Subjetivo
+                </div>
+                <div class="col-4">
+                @Html.DisplayFor(model => model.Tratamientos.Select(t => t.SubjetivoDto).ToList())
+                </div>
+                <div class="col-2">
+                Objetivo
+                </div>
+                <div class="col-4">
+                @Html.DisplayFor(model => model.Tratamientos.Select(t => t.ObjetivoDto).ToList())
+                </div> *@
+                @foreach (var tratamiento in Model.Tratamientos)
+                {
+                    <div class="mb-3">
+                        <h5>Tratamiento:</h5>
+                        <p><strong>Subjetivo:</strong> @Html.DisplayFor(m => tratamiento.SubjetivoDto)</p>
+                        <p><strong>Objetivo:</strong> @Html.DisplayFor(m => tratamiento.ObjetivoDto)</p>
+                        <p><strong>Análisis:</strong> @Html.DisplayFor(m => tratamiento.AnalisisDto)</p>
+                        <p><strong>Plan de Acción:</strong> @Html.DisplayFor(m => tratamiento.PlanAccionDto)</p>
+                        <p><strong>Fecha:</strong> @Html.DisplayFor(m => tratamiento.FechaTratamientoDto)</p>
+
+                        <h6>Avances del tratamiento:</h6>
+                        <ul>
+                            @foreach (var avance in tratamiento.AvanceTratamientoDtos)
+                            {
+                                <li class="row">
+                                    <p class="col-3"><strong>Fecha inicio:</strong> @Html.DisplayFor(m => avance.FechaInicioDto) </p>
+                                    <p class="col-3"><strong>Fecha conclusión:</strong> @Html.DisplayFor(m => avance.FechaConclusionDto)</p>
+                                    <p class="col-6"><strong>Pieza dental:</strong> @Html.DisplayFor(m => avance.PiezaDentalDto)</p>
+                                    <p class="col-12"><strong>Avance:</strong> @Html.DisplayFor(m => avance.AvanceDto)</p>
+                                </li>
+
+                            }
+                        </ul>
+
+                        <p><strong>Presupuesto Total:</strong> @Html.DisplayFor(m => tratamiento.PresupuestoTotalDto)</p>
+                        <p><strong>A cuenta:</strong> @Html.DisplayFor(m => tratamiento.ACuentaDto)</p>
+                        <p><strong>Saldo:</strong> @Html.DisplayFor(m => tratamiento.SaldoDto)</p>
+
+                        <h6>Pagos Realizados:</h6>
+                        <ul>
+                            @foreach (var pago in tratamiento.PagosTratamientoDtos)
+                            {
+                                <li class="row">
+                                    <p class="col-3"><strong>Fecha:</strong> @Html.DisplayFor(m => pago.FechaPagoDto)</p>
+                                    <p class="col-3"><strong>Monto:</strong> @Html.DisplayFor(m => pago.MontoDto)</p>
+                                </li>
+                            }
+                        </ul>
+
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+   
+
+    <script>
+        $(document).ready(function () {
+            $("#generatePdfButton").click(function () {
+                var idHistorial = $(this).data("id-historial");
+
+                // Capturar canvases de la vista parcial
+                var canvasAdultos1 = document.getElementById("camada1OdontogramaAdultos");
+                var canvasAdultos2 = document.getElementById("camada2OdontogramaAdultos");
+                var canvasNinos1 = document.getElementById("camada1OdontogramaNinos");
+                var canvasNinos2 = document.getElementById("camada2OdontogramaNinos");
+
+                // Verificar que los canvases existan y estén renderizados
+                if (!canvasAdultos1 || !canvasAdultos2 || !canvasNinos1 || !canvasNinos2) {
+                    console.error("Uno o más canvases no están disponibles.");
+                    alert("Error: Los odontogramas no están completamente cargados.");
+                    return;
+                }
+
+                // Combinar canvases de adultos en una sola imagen
+                var combinedAdultos = combineCanvases(canvasAdultos1, canvasAdultos2);
+                // Combinar canvases de niños en una sola imagen
+                var combinedNinos = combineCanvases(canvasNinos1, canvasNinos2);
+
+                var images = {
+                    adultos: combinedAdultos.toDataURL("image/png"),
+                    ninos: combinedNinos.toDataURL("image/png")
+                };
+
+                // Enviar imágenes al servidor
+                $.ajax({
+                    url: '@Url.Action("GenerateClinicalHistoryPdf", "PrinthistorialClincoes")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        id: idHistorial,
+                        images: images
+                    }),
+                    success: function (response) {
+                        // Crear un enlace temporal para descargar el PDF
+                        var blob = new Blob([response], { type: 'application/pdf' });
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = 'HistorialClinico-' + idHistorial + '.pdf';
+                        link.click();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al generar el PDF:", error);
+                        alert("No se pudo generar el PDF.");
+                    },
+                    xhrFields: {
+                        responseType: 'blob' // Importante para manejar la respuesta como archivo
+                    }
+                });
+
+            });
+            // Función para combinar dos canvases en uno
+            function combineCanvases(canvas1, canvas2) {
+                // Crear un nuevo canvas con las mismas dimensiones
+                var combinedCanvas = document.createElement("canvas");
+                combinedCanvas.width = canvas1.width;
+                combinedCanvas.height = canvas1.height;
+                var ctx = combinedCanvas.getContext("2d");
+
+                // Dibujar el primer canvas (Capa 1)
+                ctx.drawImage(canvas1, 0, 0);
+
+                // Dibujar el segundo canvas (Capa 2) encima
+                ctx.drawImage(canvas2, 0, 0);
+
+                return combinedCanvas;
+            }
+        });
+    </script>
+    <script>
+        var boton = document.getElementById("generatePdfButton");
+        boton.addEventListener("click", function () {
+            boton.disabled = true;
+
+            setTimeout(function () {
+                boton.disabled = false;
+            }, 4000);
+        });
+    </script>
+
+}

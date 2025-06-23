@@ -1,0 +1,242 @@
+﻿@model List<clinicadental.Dtos.OdontogramaDto>
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/styleOdontograma.css" />
+
+<h1 class="text-center p-2 display-4">ODONTOGRAMA</h1>
+
+<div class="container-fluid mt-3 ">
+    <div class="card text-center fondo-historial contenedorOdontograma border-redondo">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="adultos-tab" data-bs-toggle="tab" href="#adultos" role="tab" aria-controls="adultos" aria-selected="true">Odontograma Adultos</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="ninos-tab" data-bs-toggle="tab" href="#ninos" role="tab" aria-controls="ninos" aria-selected="false">Odontograma Niños</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body p-0 bg-white">
+            <div class="tab-content" id="myTabContent">
+                <!-- Contenido Odontograma Adultos -->
+                <div class="tab-pane fade show active" id="adultos" role="tabpanel" aria-labelledby="adultos-tab">
+                    <form  asp-action="Create" method="post" id="odontogramaFormAdultos">
+                        <input type="hidden" name="Procedimientos" id="procedimientosInputAdultos" />
+                        <input type="hidden" name="id" value="@ViewBag.IdHistorialClinico" />
+                        <!-- Leyenda -->
+                        <div class="row">
+                            <div class="col-12 d-flex ">
+                                <ul class="list-unstyled d-flex flex-wrap justify-content-center">
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #FF0000;"></span> Lesión de Caries Activa
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #FFA500;"></span> Obturado y Cariado
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #800080;"></span> Obturado sin Caries
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #000000;"></span> Perdido por Caries
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #008000;"></span> Perdido por otra Razón
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #FFFF00;"></span> Soporte de Puente Corono Especial o Funda
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #00FFFF;"></span> No Erupcionado
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #0000FF;"></span> Traumatismos
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #A52A2A;"></span> No Registrado
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Odontograma -->
+                        <div class="row ">
+                            <div class="col-12" id="canva-group-adultos">
+                                <canvas id="camada1OdontogramaAdultos"></canvas>
+                                <canvas id="camada2OdontogramaAdultos"></canvas>
+                                <canvas id="camada3OdontogramaAdultos"></canvas>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h5 class="m-0 text-start">Afecciones</h5>
+                            <div class="col-auto p-3 d-flex">
+                                <select class="form-control mb-2 form-select" id="nomeProcedimentoAdultos">
+                                    <!-- Opciones cargadas dinámicamente -->
+                                </select>
+                                <button id="botaoAdicionarAdultos" type="button" class="btn btn-primary mb-3 ms-3"><i class="fas fa-plus"></i> Agregar</button>
+                            </div>
+                        </div>
+                        <div class="row tablaafeccion">
+                            <div class="col-12 p-3">
+                                <h5>Procedimientos Registrados</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Diente</th>
+                                                <th>Cara</th>
+                                                <th>Afección</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyProcedimentosAdultos">
+                                            <!-- Filas cargadas dinámicamente -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-3">                          
+                            <div class="col-auto">
+                                <a onclick="window.history.back();" class="btn btn-outline-dark">Volver</a>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-success" id="btnCrearOdontogramaAdultos">Guardar Adultos</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Contenido Odontograma Niños -->
+                <div class="tab-pane fade" id="ninos" role="tabpanel" aria-labelledby="ninos-tab">
+                    <form asp-action="Create" method="post" id="odontogramaFormNinos">
+                        <input type="hidden" name="Procedimientos" id="procedimientosInputNinos" />
+                        <input type="hidden" name="id" value="@ViewBag.IdHistorialClinico" />
+                        <!-- Leyenda -->
+                        <div class="row">
+                            <div class="col-12 d-flex">
+                                <ul class="list-unstyled d-flex flex-wrap justify-content-center">
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #FF0000;"></span> Lesión de Caries Activa
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #FFA500;"></span> Obturado y Cariado
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #800080;"></span> Obturado sin Caries
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #000000;"></span> Perdido por Caries
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #008000;"></span> Perdido por otra Razón
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #FFFF00;"></span> Soporte de Puente Corono Especial o Funda
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #00FFFF;"></span> No Erupcionado
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #0000FF;"></span> Traumatismos
+                                    </li>
+                                    <li class="leyenda-item">
+                                        <span class="color-box" style="background-color: #A52A2A;"></span> No Registrado
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Odontograma -->
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-9 col-lg-9" id="canva-group-ninos">
+                                <canvas id="camada1OdontogramaNinos"></canvas>
+                                <canvas id="camada2OdontogramaNinos"></canvas>
+                                <canvas id="camada3OdontogramaNinos"></canvas>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3 p-3">
+                                <h5>Afecciones</h5>
+                                <select class="form-control mb-2 form-select" id="nomeProcedimentoNinos">
+                                    <!-- Opciones cargadas dinámicamente -->
+                                </select>
+                                <button id="botaoAdicionarNinos" type="button" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Agregar</button>
+                            </div>
+                        </div>
+                        <div class="row tablaafeccion">
+                            <div class="col-12 p-3">
+                                <h5>Procedimientos Registrados</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Diente</th>
+                                                <th>Cara</th>
+                                                <th>Afección</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyProcedimentosNinos">
+                                            <!-- Filas cargadas dinámicamente -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-3">
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-success" id="btnCrearOdontogramaninos">Guardar Niños</button>
+                            </div>
+                            <div class="col-auto">
+                                <a onclick="window.history.back();" class="btn btn-outline-dark">Volver</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/odontogramaadultos.js" asp-append-version="true"></script>
+    <script src="~/js/odontogramaninos.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        var odontogramaData = @Html.Raw(Json.Serialize(Model));
+        window.idHistorialClinico = @ViewBag.IdHistorialClinico;
+
+        $(document).ready(function () {
+            // Cargar datos iniciales
+            cargarDatosOdontograma(odontogramaData);
+            cargarDatosOdontogramaNinos(odontogramaData);
+
+            $('#odontogramaFormAdultos').on('submit', function () {
+                var boton = $('#btnCrearOdontogramaAdultos');
+                boton.prop('disabled', true);
+                boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creando...');
+
+                setTimeout(function () {
+                    boton.prop('disabled', false);
+                    boton.html('Guardar Adultos');
+                }, 5000); // 5000 milisegundos = 5 segundos
+            });
+
+            $('#odontogramaFormninos').on('submit', function () {
+                var boton = $('#btnCrearOdontogramaninos');
+                boton.prop('disabled', true);
+                boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creando...');
+
+                setTimeout(function () {
+                    boton.prop('disabled', false);
+                    boton.html('Guardar Niños');
+                }, 5000); // 5000 milisegundos = 5 segundos
+            });
+
+        });
+    
+    </script>
+}

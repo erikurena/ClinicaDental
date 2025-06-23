@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewData["Title"] = "_Toasts";
+    Layout = "";
+}
+<style>
+    .toast {
+        width:350px;
+        height: 80px;
+    }
+</style>
+
+<!-- Contenedor del Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+    <!-- Toast de éxito agregar -->
+    <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 1050;">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto">Éxito</strong>
+            <button type="button" class="btn-close  " data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body d-flex align-items-center">
+            <span class="me-2" style="display: inline-block; width: 10px; height: 10px; background-color: #28a745; border-radius: 50%;"></span>
+            Se guardó correctamente.
+        </div>
+    </div>
+    <!-- Toast de error agregar -->
+    <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+        <div class="toast-header bg-danger text-white">
+            <strong class="me-auto">Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <span class="me-2" style="display: inline-block; width: 10px; height: 10px; background-color: #ff0000; border-radius: 50%;"></span>
+            <!-- El mensaje se llenará dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Toast de exito copiar -->
+    <div id="successToastCopiar" class="toast " role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header text-white" style="background-color:#5a707c;">
+            <strong class="me-auto">Éxito</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <span class="me-2" style="display: inline-block; width: 10px; height: 10px; background-color: #5a707c; border-radius: 50%;"></span>
+            Se Copio correctamente.
+        </div>
+    </div>
+
+    <!-- Toast de error copiar -->
+    <div id="errorToastCopiar" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+        <div class="toast-header bg-danger text-white">
+            <strong class="me-auto">Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <!-- El mensaje se llenará dinámicamente -->
+        </div>
+    </div>
+
+
+    <!-- Toast de exito eliminar -->
+    <div id="successToastDelete" class="toast " role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-danger text-white">
+            <strong class="me-auto ">Éxito</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <span class="me-2" style="display: inline-block; width: 10px; height: 10px; background-color: #ff0000; border-radius: 50%;"></span>
+            Se Elimino correctamente.
+        </div>
+    </div>
+
+    <!-- Toast de exito Modificar -->
+    <div id="successToastModificar" class="toast " role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header text-white" style="background-color:#5a707c;">
+            <strong class="me-auto">Éxito</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <span class="me-2" style="display: inline-block; width: 10px; height: 10px; background-color: #5a707c; border-radius: 50%;"></span>
+            Se modifico correctamente.
+        </div>
+    </div>
+
+    <!-- Toast de error agregar -->
+    <div id="errorToastDelete" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+        <div class="toast-header bg-danger text-white">
+            <strong class="me-auto">Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <!-- El mensaje se llenará dinámicamente -->
+        </div>
+    </div>
+
+</div>
+
+

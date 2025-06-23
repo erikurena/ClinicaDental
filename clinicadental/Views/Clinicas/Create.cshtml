@@ -1,0 +1,60 @@
+﻿@model clinicadental.Models.Clinica
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+}
+
+<form asp-controller="Clinicas" asp-action="Create" enctype="multipart/form-data">
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-6 col-lg-6 col-md-6">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" value="t" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6  col-lg-6 col-md-6">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" value="t" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                <label asp-for="Nit" class="control-label"></label>
+                <input asp-for="Nit" class="form-control" value="t" />
+                <span asp-validation-for="Nit" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                <label asp-for="Ujsedes" class="control-label"></label>
+                <input asp-for="Ujsedes" class="form-control" value="t" />
+                <span asp-validation-for="Ujsedes" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                <label asp-for="Pmc" class="control-label"></label>
+                <input asp-for="Pmc" class="form-control" value="t" />
+                <span asp-validation-for="Pmc" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                <label asp-for="Celular" class="control-label"></label>
+                <input asp-for="Celular" class="form-control" value="t" />
+                <span asp-validation-for="Celular" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                <label asp-for="Ciudad" class="control-label"></label>
+                <input asp-for="Ciudad" class="form-control" value="t" />
+                <span asp-validation-for="Ciudad" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                <label asp-for="Pais" class="control-label"></label>
+                <input asp-for="Pais" class="form-control" value="t" />
+                <span asp-validation-for="Pais" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="FotoFile" class="control-label"></label>
+                <input asp-for="FotoFile" class="form-control" accept="image/*" />
+                <span asp-validation-for="FotoFile" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</form>
+

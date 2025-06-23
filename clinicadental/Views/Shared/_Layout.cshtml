@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - clinicadental</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="row navbar navbar-expand-sm navbar-toggleable-sm fixed-top navBackGround">
+            <div class="container-fluid">
+                <!-- Elemento izquierdo -->
+                <p class="navbar-brand d-flex align-items-end ps-3 m-0 me-auto">
+                    <img src="~/Photos/LogosClinica/hdentlogo.png" alt="Logo" class="logo me-2" style="width:30px;" />
+                    <span style="font-family:tituloCurvo; font-size:18px;">
+                        Healthy Dent.
+                    </span>
+                </p>
+
+                <!-- Elementos derechos -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="d-flex align-items-center ms-auto">
+                        <p class="mb-0 me-3">
+                            @User.FindFirst("Nombre")?.Value
+                            @User.FindFirst("ApellidoPaterno")?.Value
+                            @User.FindFirst("ApellidoMaterno")?.Value
+                        </p>
+                        <form asp-controller="Cuentums" asp-action="Logout" method="Post" class="mb-0">
+                            <button type="submit" class="btn shadow-sm btn-danger ps-2 pt-0 pb-0 me-lg-3" title="Salir"> <i class="bi bi-box-arrow-in-right fs-5"></i> </button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </nav>
+
+        <div class="row flex-nowrap  pt-5 ">
+
+            <div class="col-1 col-md-3 col-xl-2 px-0 pt-3 position-fixed sidebar-fija" style="height: 100vh; min-width:50px">
+
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-0 pt-1 text-white min-vh-100" style="min-width:50px;">
+                    <p class="pb-2 text-dark text-decoration-none d-none d-sm-inline px-3 m-0 w-100 text-center display-6">
+                        Menu
+                    </p>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start col-12 ">
+
+                        <li class="nav-item sidebarizq w-100 px-1 rounded-5" id="home" data-controller="Home" data-action="Index">
+                            <a class="nav-link text-dark align-middle px-3  " asp-area="" asp-controller="Home" asp-action="Index">
+                                <div class="row ">
+                                    <div class="col-2 p-1 text-center">
+                                        <i class="bi bi-house-door fs-3 colori"></i>
+                                    </div>
+                                    <div class="col-10 align-content-center p-0">
+                                        <span class="ms-1 d-none  d-sm-inline ps-1">Home</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item sidebarizq w-100 px-1 rounded-5" id="Details" data-controller="Usuarios" data-action="Details">
+                            <a class="nav-link text-dark align-middle px-3 " asp-area="" asp-controller="Usuarios" asp-action="Details" asp-route-id="1">
+                                <div class="row ">
+                                    <div class="col-2 p-1 text-center">
+                                        <i class="bi bi-person-lines-fill fs-4 colori"></i>
+                                    </div>
+                                    <div class="col-10 align-content-center p-0">
+                                        <span class="ms-1 d-none d-sm-inline ps-1">Perfil</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item sidebarizq w-100 px-1 rounded-5" id="Usuarios" data-controller="Usuarios" data-action="Index">
+
+                                <a class="nav-link text-dark align-middle  px-3" asp-area="" asp-controller="Usuarios" asp-action="Index">
+                                    <div class="row ">
+                                        <div class="col-2 p-1 text-center">
+                                            <i class="bi bi-person-square fs-4 colori"></i>
+                                        </div>
+                                        <div class="col-10 align-content-center p-0">
+                                            <span class="ms-1 d-none d-sm-inline ps-1">Usuarios</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item sidebarizq w-100 px-1 rounded-5" id="Citas" data-controller="Citas" data-action="Index">
+                            <a class="nav-link text-dark align-middle px-3 " asp-area="" asp-controller="Citas" asp-action="Index">
+                                <div class="row ">
+                                    <div class="col-2 p-1 text-center ">
+                                        <i class="bi bi-calendar3  fs-3 colori"></i>
+                                    </div>
+                                    <div class="col-10 align-content-center p-0">
+                                        <span class="ms-1 d-none d-sm-inline ps-1">Citas</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item sidebarizq w-100 px-1 rounded-5" id="Pacientes" data-controller="Pacientes" data-action="Index">
+                            <a class="nav-link text-dark  align-middle px-3" asp-area="" asp-controller="Pacientes" asp-action="Index">
+                                <div class="row ">
+                                    <div class="col-2 p-1 text-center">
+                                        <i class="bi bi-person-rolodex fs-4 colori"></i>
+                                    </div>
+                                    <div class="col-10 align-content-center p-0">
+                                        <span class="ms-1 d-none d-sm-inline ps-1">Pacientes</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item sidebarizq w-100 px-1 rounded-5" id="Clinica" data-controller="Clinicas" data-action="Index">
+                            <a class="nav-link text-dark  align-middle px-3" asp-area="" asp-controller="Clinicas" asp-action="Index">
+                                <div class="row colori">
+                                    <div class="col-2 p-1 text-center coloridos">
+                                        <i class="bi bi-building-fill fs-4 "></i>
+                                    </div>
+                                    <div class="col-10 align-content-center p-0">
+                                        <span class="ms-1 d-none d-sm-inline ps-1">Clinica</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item sidebarizq w-100 px-1 rounded-5" id="Reportes" data-controller="Reportes" data-action="Index">
+                            <a class="nav-link text-dark  align-middle px-3" asp-area="" asp-controller="Reportes" asp-action="Index">
+                                <div class="row colori">
+                                    <div class="col-2 p-1 text-center coloridos">
+                                        <i class="bi bi-clipboard-data fs-3"></i>
+                                    </div>
+                                    <div class="col-10 align-content-center p-0">
+                                        <span class="ms-1 d-none d-sm-inline ps-1">Reportes</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="col offset-md-3 offset-xl-2 body-contenido pt-3">
+                <div class="container ">
+                    <main role="main" class="pb-3 ">
+                        @RenderBody()
+                    </main>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="border-top  text-muted p-5 m-5">
+        <div class="container">
+            &copy; 2024 - clinicadental - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        var currentController = '@currentController';
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let botones = document.querySelectorAll('.sidebarizq');
+            botones.forEach(b => b.classList.remove('active'));
+
+            // Mapeo manual: qué controlador activa qué botón
+            const controladorToBoton = {
+                // Módulo Inicio
+                'Home': 'home',
+                // Módulo Usuarios
+                'Usuarios': 'Usuarios',
+                 'Usuarios': 'Details',
+                // Módulo Citas
+                'Citas': 'Citas',
+                // Módulo Pacientes
+                'Pacientes': 'Pacientes',
+                'Historialclinicoes': 'Pacientes',
+                'Tratamientoes': 'Pacientes',
+                'Odontogramas': 'Pacientes',
+                 // Módulo Clínicas
+                'Clinicas': 'Clinica',
+                // Módulo Reportes
+                'Reportes': 'Reportes',
+            };
+
+            const botonId = controladorToBoton[currentController] || 'home';
+            const boton = document.getElementById(botonId);
+            if (boton) {
+                boton.classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+</html>

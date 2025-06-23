@@ -1,0 +1,40 @@
+﻿@model clinicadental.Models.Cita
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+}
+<form asp-action="Edit" id="modifyCitaForm" method="post">
+<div class="d-flex flex-column">
+    <div class="row">       
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdCita" />           
+            <div class="form-group">
+                <label asp-for="NombrePaciente" class="control-label"></label>
+                <input asp-for="NombrePaciente" class="form-control" />
+                <span asp-validation-for="NombrePaciente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MotivoCita" class="control-label"></label>
+                <input asp-for="MotivoCita" class="form-control" />
+                <span asp-validation-for="MotivoCita" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstadoCita" class="control-label"></label>
+                <input asp-for="EstadoCita" class="form-control" />
+                <span asp-validation-for="EstadoCita" class="text-danger"></span>
+            </div>         
+            <div class="form-group">
+                <label asp-for="CorreoElectronico" class="control-label"></label>
+                <input asp-for="CorreoElectronico" class="form-control" />
+                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>               
+    </div>
+</div>
+</form>
+

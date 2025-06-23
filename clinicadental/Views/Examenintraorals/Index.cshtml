@@ -1,0 +1,72 @@
+﻿@model IEnumerable<clinicadental.Models.Examenintraoral>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Encia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Labio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lengua)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MucosaYugal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Paladar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PisoDeBoca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProtesisDental)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Encia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Labio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lengua)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MucosaYugal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paladar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PisoDeBoca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProtesisDental)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdExamenIntraoral">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdExamenIntraoral">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdExamenIntraoral">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

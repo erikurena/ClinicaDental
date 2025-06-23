@@ -1,0 +1,608 @@
+﻿@model IEnumerable<clinicadental.Models.Cita>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class=" text-center">CITAS</h1>
+<link rel="stylesheet" href="~/css/Calendario.css"/>
+<script src="~/lib/fullcalendar-6.1.17/dist/index.global.min.js"></script>
+
+<form id="hiddenForm"  style="display: none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<div class="fondo-historial color-white p-3  calendarioCss" id="calendar"></div>
+
+<!-- Contenedor del Toast -->
+<partial name="_Toasts" />
+
+<!-- Modal para crear cita -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Nueva Cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="createModalBody">
+                <!-- Aquí se cargará la vista parcial -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary btn-bloquear" id="saveCita">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para mostrar detalles de la cita -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Detalles de la Cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Paciente:</strong> <span id="modalPaciente"></span></p>
+                <p><strong>Motivo:</strong> <span id="modalMotivo"></span></p>
+                <p><strong>Inicio:</strong> <span id="modalStart"></span></p>
+                <p><strong>Fin:</strong> <span id="modalEnd"></span></p>
+                <p><strong>Celular:</strong> <span id="modalTelefono"></span></p>
+
+                <!-- Formulario para cambiar la fecha (se mantiene por si acaso, pero oculto por defecto) -->
+                <div id="editDateForm" style="display: none;">
+                    <hr />
+                    <h6>Cambiar Fecha y Hora</h6>
+                    <div class="mb-3">
+                        <label for="editFecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="editFecha" name="FechaHoraCita" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editInicio" class="form-label">Hora de Inicio</label>
+                        <input type="datetime" class="form-control" id="editInicio" name="HorainicioCita" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editFin" class="form-label">Hora de Fin</label>
+                        <input type="datetime" class="form-control" id="editFin" name="HorafinCita" />
+                    </div>
+                    <button type="button" class="btn btn-primary" id="saveDateChange">Guardar Cambios</button>
+                    <button type="button" class="btn btn-secondary" id="cancelEdit">Cancelar</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-warning btn-bloquear" id="modifyCitaBtn">Modificar</button>
+                <button type="button" class="btn btn-danger btn-bloquear" id="deleteCitaBtn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para modificar cita -->
+<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifyModalLabel">Modificar Cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modifyModalBody">
+                <!-- Aquí se cargará la vista parcial -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary btn-bloquear" id="saveModifiedCita">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal de confirmación de mover -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmar cambio de cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="cancelarMovimientoCerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de mover esta cita al nuevo horario?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelarMovimiento" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary btn-bloquear" id="confirmarMovimiento">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">Confirmar eliminación de cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="cancelDeleteClose"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de eliminar esta cita? Esta acción no se puede deshacer.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelDelete" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger btn-bloquear" id="confirmDelete">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        // Declarar calendar en un ámbito global
+        let calendar;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            if (calendarEl) {
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'timeGridWeek',
+                    headerToolbar: {
+                        left: 'prev,next',         
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek'
+                    },
+                    buttonText: {
+                        today: 'Hoy',
+                        month: 'Mes',
+                        week: 'Semana',
+                        day: 'Día',
+                        list: 'Lista'
+                    },
+                    locale: 'es',
+                    slotMinTime: '08:00:00',
+                    slotMaxTime: '23:00:00',
+                    selectable: true,
+                    editable: true,
+                    events: '/Citas/GetCitas',
+                    timeZone: 'local',
+                    select: function (info) {
+                        console.log('Selección hecha:', info.startStr, info.endStr);
+                        fetch(`/Citas/Create?start=${info.startStr}&end=${info.endStr}`, {
+                            method: 'GET'
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`Error en la respuesta: ${response.status}`);
+                                }
+                                return response.text();
+                            })
+                            .then(html => {
+                                document.getElementById('createModalBody').innerHTML = html;
+
+                                const fechaHoraCita = document.getElementById('FechaHoraCita');
+                                const horaInicioCita = document.getElementById('HorainicioCita');
+                                const horaFinCita = document.getElementById('HorafinCita');
+                                const displayDateTime = document.getElementById('displayDateTime');
+
+                                // Extraer fecha y hora directamente de info.startStr y info.endStr                               
+                                const startParts = info.startStr.split('T'); // Ej: ["2025-04-12", "08:00:00Z"]
+                                const endParts = info.endStr.split('T'); // Ej: ["2025-04-12", "08:30:00Z"]
+                                const fechaInicio = startParts[0]; // Ej: "2025-04-12"
+                                const fechaFin = endParts[0]; // Ej: "2025-04-12"
+                                const horaInicio = startParts[1].slice(0, 5); // Ej: "08:00"
+                                const horaFin = endParts[1].slice(0, 5); // Ej: "08:30"
+
+                                // Formato para datetime-local: "YYYY-MM-DDThh:mm"
+                                const datetimeInicio = `${fechaInicio}T${horaInicio}`; // Ej: "2025-04-12T08:00"
+                                const datetimeFin = `${fechaFin}T${horaFin}`; // Ej: "2025-04-12T08:30"
+
+                                // Asignar valores al formulario
+                                fechaHoraCita.value = fechaInicio; // Para compatibilidad, aunque podría no usarse
+                                horaInicioCita.value = datetimeInicio; // Ej: "2025-04-12T08:00"
+                                horaFinCita.value = datetimeFin; // Ej: "2025-04-12T08:30"
+
+                                // Mostrar en displayDateTime
+                                const startDate = new Date(info.startStr);
+                                const endDate = new Date(info.endStr);
+                                displayDateTime.value =
+                                    startDate.toLocaleString('es-ES', { dateStyle: 'medium', timeStyle: 'short' }) +
+                                    ' - ' +
+                                    endDate.toLocaleString('es-ES', { timeStyle: 'short' });
+
+                                console.log('Valores asignados:', {
+                                    fechaHoraCita: fechaHoraCita.value,
+                                    horaInicioCita: horaInicioCita.value,
+                                    horaFinCita: horaFinCita.value
+                                });
+
+                                const modalElement = document.getElementById('createModal');
+                                if (modalElement) {
+                                    const modal = new bootstrap.Modal(modalElement);
+                                    modal.show();
+                                    console.log('Modal debería estar visible');
+                                } else {
+                                    console.error('Elemento modal no encontrado');
+                                }
+                            })
+                            .catch(error => console.error('Error al cargar el formulario:', error));
+                    },
+
+                    eventClick: function (info) {
+                        // Obtener los datos del evento
+                        const event = info.event;
+                        const titleParts = event.title.split(' - '); // Separar paciente y motivo
+
+                        // Llenar los campos del modal
+                        document.getElementById('modalPaciente').textContent = titleParts[0] || 'N/A';
+                        document.getElementById('modalMotivo').textContent = titleParts[1] || 'N/A';
+                        document.getElementById('modalStart').textContent = event.start.toLocaleString('es-ES', {
+                            dateStyle: 'medium',
+                            timeStyle: 'short'
+                        });
+                        document.getElementById('modalEnd').textContent = event.end ? event.end.toLocaleString('es-ES', {
+                            timeStyle: 'short'
+                        }) : 'N/A';
+                        document.getElementById('modalTelefono').textContent = event.extendedProps.celular || 'N/A';
+
+                        // Mostrar el modal
+                        const modalElement = document.getElementById('detailsModal');
+                        if (modalElement) {
+                            const modal = new bootstrap.Modal(modalElement);
+                            modal.show();
+                        } else {
+                            console.error('Elemento detailsModal no encontrado');
+                        }
+                        // Botón Modificar
+                        document.getElementById('modifyCitaBtn').onclick = function () {
+                            fetch(`/Citas/Edit/${event.id}`, {
+                                method: 'GET'
+                            })
+                                .then(response => {
+                                    if (!response.ok) throw new Error(`Error ${response.status}`);
+                                    return response.text();
+                                })
+                                .then(html => {
+                                    document.getElementById('modifyModalBody').innerHTML = html;
+                                    const modifyModalElement = document.getElementById('modifyModal');
+                                    const modifyModal = new bootstrap.Modal(modifyModalElement);
+                                    modifyModal.show();
+                                })
+                                .catch(error => console.error('Error al cargar el formulario de edición:', error));
+                        };
+
+                        // Botón Eliminar
+                        document.getElementById('deleteCitaBtn').onclick = function () {
+                            const deleteModalElement = document.getElementById('deleteConfirmModal');
+                            const deleteModal = new bootstrap.Modal(deleteModalElement, {
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+                            deleteModal.show();
+
+                            // Confirmar eliminación
+                            document.getElementById('confirmDelete').onclick = function () {
+                                fetch(`/Citas/Delete/${event.id}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                        'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                                    }
+                                })
+                                    .then(response => {
+                                        if (!response.ok) throw new Error(`Error ${response.status}`);
+                                        return response.json();
+                                    })
+                                    .then(data => {
+                                        if (data.success) {
+                                            deleteModal.hide();
+                                            const modaldetails = bootstrap.Modal.getInstance(document.getElementById('detailsModal'));
+                                            modaldetails.hide();
+                                            calendar.refetchEvents();
+                                            const successToast = new bootstrap.Toast(document.getElementById('successToastDelete'));
+                                            successToast.show();
+                                        } else {
+                                            deleteModal.hide();
+                                            const errorToast = document.getElementById('errorToastDelete');
+                                            errorToast.querySelector('.toast-body').textContent = data.message;
+                                            new bootstrap.Toast(errorToast).show();
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error al eliminar la cita:', error);
+                                        deleteModal.hide();
+                                        const errorToast = document.getElementById('errorToast');
+                                        errorToast.querySelector('.toast-body').textContent = 'Error al eliminar la cita.';
+                                        new bootstrap.Toast(errorToast).show();
+                                    });
+                            };
+
+                            // Cancelar eliminación
+                            document.getElementById('cancelDelete').onclick = function () {
+                                deleteModal.hide();
+                            };
+                            document.getElementById('cancelDeleteClose').onclick = function () {
+                                deleteModal.hide();
+                            };
+                        };
+                    },
+
+                    eventDrop: function (info) {
+                        const event = info.event;
+                        const idCita = parseInt(event.id);
+                        const newStart = event.start;
+                        const newEnd = event.end || new Date(newStart.getTime() + 60 * 60 * 1000);
+
+                        // Usar toLocaleString para obtener fecha y hora en zona horaria local
+                        const fechaInicio = newStart.toLocaleDateString('en-CA'); // Formato YYYY-MM-DD
+                        const fechaFin = newEnd.toLocaleDateString('en-CA');
+                        const horaInicio = newStart.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false }); // Ej: "08:00"
+                        const horaFin = newEnd.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false }); // Ej: "08:30"
+
+                        const data = {
+                            IdCita: idCita,
+                            FechaHoraCita: fechaInicio, // Opcional, según el backend
+                            HorainicioCita: `${fechaInicio}T${horaInicio}:00`,
+                            HorafinCita: `${fechaFin}T${horaFin}:00`
+                        };
+                        console.log('Datos enviados (eventResize):', data);
+                        const model = JSON.stringify(data);
+
+                        let movimientoConfirmado = false;
+
+                        // Inicializar y mostrar el modal con configuración para que no se cierre accidentalmente
+                        const modalElement = document.getElementById('confirmModal');
+                        const confirmModal = new bootstrap.Modal(modalElement, {
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        confirmModal.show();
+
+                        // Si el modal se cierra sin confirmar, se revierte el evento
+                        modalElement.addEventListener('hidden.bs.modal', function () {
+                            if (!movimientoConfirmado) {
+                                info.revert();
+                            }
+                        }, { once: true }); // `once: true` para evitar múltiples listeners
+
+                        // Confirmar movimiento
+                        document.getElementById('confirmarMovimiento').onclick = function () {
+                            movimientoConfirmado = true;
+                            confirmModal.hide();
+
+                            fetch('/Citas/UpdateDate', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: model
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        return response.text().then(text => {
+                                            throw new Error(`Error ${response.status}: ${text}`);
+                                        });
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.success) {
+                                        calendar.refetchEvents();
+                                        const successToast = new bootstrap.Toast(document.getElementById('successToastModificar'));
+                                        successToast.show();
+                                    } else {
+                                        info.revert();
+                                        const errorToast = document.getElementById('errorToast');
+                                        errorToast.querySelector('.toast-body').textContent = data.message;
+                                        new bootstrap.Toast(errorToast).show();
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error al actualizar la cita:', error);
+                                    info.revert();
+                                });
+                        };
+
+                        // Cancelar movimiento
+                        document.getElementById('cancelarMovimiento').onclick = function () {
+                            confirmModal.hide(); // se revertirá automáticamente desde `hidden.bs.modal`
+                        };
+                        document.getElementById('cancelarMovimientoCerrar').onclick = function () {
+                            confirmModal.hide(); // se revertirá automáticamente desde `hidden.bs.modal`
+                        };
+                    },
+                        
+                    eventResize: function (info) {
+                        const event = info.event;
+                        const idCita = parseInt(event.id);
+                        const newStart = event.start;
+                        const newEnd = event.end;
+
+                        // Usar toLocaleString para obtener fecha y hora en zona horaria local
+                        const fechaInicio = newStart.toLocaleDateString('en-CA'); // Formato YYYY-MM-DD
+                        const fechaFin = newEnd.toLocaleDateString('en-CA');
+                        const horaInicio = newStart.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false }); // Ej: "08:00"
+                        const horaFin = newEnd.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false }); // Ej: "08:30"
+
+                        const data = {
+                            IdCita: idCita,
+                            FechaHoraCita: fechaInicio, // Opcional
+                            HorainicioCita: `${fechaInicio}T${horaInicio}:00`,
+                            HorafinCita: `${fechaFin}T${horaFin}:00`
+                        };
+                        console.log('Datos enviados (eventResize):', data);
+                        const model = JSON.stringify(data);
+
+                        let resizeConfirmed = false;
+
+                        // Mostrar el modal de confirmación
+                        const modalElement = document.getElementById('confirmModal');
+                        const confirmModal = new bootstrap.Modal(modalElement, {
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        confirmModal.show();
+
+                        // Revertir si el modal se cierra sin confirmar
+                        modalElement.addEventListener('hidden.bs.modal', function () {
+                            if (!resizeConfirmed) {
+                                info.revert();
+                            }
+                        }, { once: true });
+
+                        // Confirmar redimensionamiento
+                        document.getElementById('confirmarMovimiento').onclick = function () {
+                            resizeConfirmed = true;
+                            confirmModal.hide();
+
+                            fetch('/Citas/UpdateDate', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: model
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        return response.text().then(text => {
+                                            throw new Error(`Error ${response.status}: ${text}`);
+                                        });
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.success) {
+                                        calendar.refetchEvents();
+                                        const successToast = new bootstrap.Toast(document.getElementById('successToastModificar'));
+                                        successToast.show();
+                                    } else {
+                                        info.revert();
+                                        const errorToast = document.getElementById('errorToast');
+                                        errorToast.querySelector('.toast-body').textContent = data.message;
+                                        new bootstrap.Toast(errorToast).show();
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error al redimensionar la cita:', error);
+                                    info.revert();
+                                });
+                        };
+
+                        // Cancelar redimensionamiento
+                        document.getElementById('cancelarMovimiento').onclick = function () {
+                            confirmModal.hide(); // Se revertirá desde hidden.bs.modal
+                        };
+                        document.getElementById('cancelarMovimientoCerrar').onclick = function () {
+                            confirmModal.hide(); // Se revertirá desde hidden.bs.modal
+                        };
+                    }
+
+                });
+                calendar.render();
+            } else {
+                console.error('Elemento #calendar no encontrado');
+            }
+        });
+
+        // Guardar la cita desde el modal
+        document.getElementById('saveCita')?.addEventListener('click', function () {
+            var form = document.getElementById('createCitaForm');
+            if (form) {
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': form.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(html => {
+                                document.getElementById('createModalBody').innerHTML = html;
+                                throw new Error('Errores de validación');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // Cerrar el modal
+                            var modal = bootstrap.Modal.getInstance(document.getElementById('createModal'));
+                            modal.hide();
+                            // Actualiza el calendario
+                            if (calendar && typeof calendar.refetchEvents === 'function') {
+                                calendar.refetchEvents();
+                            }
+                            // Mostrar el toast
+                            const toastElement = document.getElementById('successToast');
+                            if (toastElement) {
+                                const toast = new bootstrap.Toast(toastElement);
+                                toast.show();
+                            }
+                        } else {
+                            // Mostrar toast de error si hay conflicto
+                            const errorToast = document.getElementById('errorToast');
+                            if (errorToast) {
+                                errorToast.querySelector('.toast-body').textContent = data.message;
+                                const toast = new bootstrap.Toast(errorToast);
+                                toast.show();
+                            } else {
+                                console.error('Elemento errorToast no encontrado');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al guardar la cita:', error);
+                    });
+            }
+        });
+
+        // Guardar cambios desde el modal de modificación
+        document.getElementById('saveModifiedCita')?.addEventListener('click', function () {
+            const form = document.getElementById('modifyCitaForm');
+            if (form) {
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': form.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(html => {
+                                document.getElementById('modifyModalBody').innerHTML = html;
+                                throw new Error('Errores de validación');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('modifyModal'));
+                            modal.hide();
+                            const modaldetalle = bootstrap.Modal.getInstance(document.getElementById('detailsModal'));
+                            modaldetalle.hide();
+                            calendar.refetchEvents();
+                            const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                            toast.show();
+                        } else {
+                            const errorToast = document.getElementById('errorToast');
+                            errorToast.querySelector('.toast-body').textContent = data.message;
+                            new bootstrap.Toast(errorToast).show();
+                        }
+                    })
+                    .catch(error => { console.error('Error al guardar la cita modificada:', error); });
+            }
+        });
+
+    </script>
+}

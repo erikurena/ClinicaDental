@@ -1,0 +1,93 @@
+﻿@model clinicadental.Models.Antecedentebucodental
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+}
+@{
+    var fecha = Model.UltimaVisitaDental;
+    var diaSel = fecha?.Day.ToString("D2");
+    var mesSel = fecha?.Month.ToString("D2");
+    var anioSel = fecha?.Year.ToString();
+}
+<h4>Antecedentebucodental</h4>
+<hr />
+<div class="d-flex flex-column">
+    <div class="row">
+        <input asp-for="IdAntecedenteBucoDental" type="hidden"/>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="UltimaVisitaDental" class="control-label"></label>
+            <div class="row g-2">
+                <div class="col">
+                    <select class="form-select" id="dia">
+                        <option value="">Día</option>
+                        @for (int i = 1; i <= 31; i++)
+                        {
+                            var val = i.ToString("D2");
+                            <option value="@val" selected="@(val == diaSel ? "selected" : null)">@val</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col">
+                    <select class="form-select" id="mes">
+                        <option value="">Mes</option>
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            var val = i.ToString("D2");
+                            <option value="@val" selected="@(val == mesSel ? "selected" : null)">@val</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col">
+                    <select class="form-select" id="anio">
+                        <option value="">Año</option>
+                        @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                        {
+                            <option value="@i" selected="@(i.ToString() == anioSel ? "selected" : null)">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="UltimaVisitaDental" id="UltimaVisitaDental" />
+            <span asp-validation-for="UltimaVisitaDental" class="text-danger"></span>
+        </div>
+        <div class="form-group col-6 col-sm-6 col-md-6 col-lg-3">
+            <label asp-for="Fuma" class="control-label"></label>
+            <select asp-for="Fuma" class="form-control" asp-items="ViewBag.Fuma"></select>
+            <span asp-validation-for="Fuma" class="text-danger"></span>
+        </div>
+        <div class="form-group col-6 col-sm-6 col-md-6 col-lg-3">
+            <label asp-for="Bebe" class="control-label"></label>
+            <select asp-for="Bebe" class="form-control" asp-items="ViewBag.Bebe"></select>
+            <span asp-validation-for="Bebe" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="Otro" class="control-label"></label>
+            <input asp-for="Otro" class="form-control" />
+            <span asp-validation-for="Otro" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<script>
+    function actualizarUltimaVisita() {
+        const dia = document.getElementById('dia').value;
+        const mes = document.getElementById('mes').value;
+        const anio = document.getElementById('anio').value;
+
+        if (dia && mes && anio) {
+            const fecha = `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+            document.getElementById('UltimaVisitaDental').value = fecha;
+        }
+    }
+
+    document.getElementById('dia').addEventListener('change', actualizarUltimaVisita);
+    document.getElementById('mes').addEventListener('change', actualizarUltimaVisita);
+    document.getElementById('anio').addEventListener('change', actualizarUltimaVisita);
+
+    // Ejecutar al cargar para inicializar el valor
+    window.addEventListener('DOMContentLoaded', actualizarUltimaVisita);
+</script>

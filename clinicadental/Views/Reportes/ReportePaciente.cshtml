@@ -1,0 +1,176 @@
+﻿@model clinicadental.Dtos.MostrarReportes
+
+@{
+    ViewData["Title"] = "Reporte de Pacientes";
+    Layout = "";
+}
+
+<h2>CONSULTAS DE PACIENTES</h2>
+
+<form id="formReporte" asp-action="ReportePacientes" method="post">
+    <div class="row">
+        <div class="col">
+            <p>Fecha de inicio</p>
+            <input asp-for="FechaInicio" type="date" class="form-control" id="FechaInicio" />
+        </div>
+        <div class="col">
+            <p>Fecha de Fin</p>
+            <input asp-for="FechaFin" type="date" class="form-control" id="FechaFin" />
+        </div>
+        <div class="col d-flex align-items-end">
+            <button type="submit" class="btn btn-success">Buscar</button>
+        </div>
+    </div>
+</form>
+
+<div id="mensajeError" class="text-danger mt-3" style="display: none;"></div>
+
+<div class="mt-4 fondo-historial">
+    <div class="table-responsive card">
+        <table id="tablaPacientes" class="table table-hover">
+            <thead class="card-header">
+                <tr>
+                    <th>Nombres</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Celular</th>
+                    <th>Lugar de Nacimiento</th>
+                    <th>Registro del Paciente</th>
+                    <th>Motivo Cita</th>
+                    <th>Tratamiento</th>
+                </tr>
+            </thead>
+            <tbody class="card-body"></tbody>
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-end pe-3" id="paginacionPacientes"></ul>
+        </nav>
+    </div>
+</div>
+
+<div class="d-flex flex-column">
+    <div class="row justify-content-end">
+        <div class="col-auto ">
+            <button id="btnExportarExcel" class=" btn btn-agregar mt-3 fondo-historial">Exportar a Excel</button>
+        </div>
+    </div>    
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<script>
+    let paginaActual = 1;
+    let totalPaginas = 1;
+
+    function mostrarDatos(data) {
+        const $tbody = $('#tablaPacientes tbody');
+        $tbody.empty();
+
+        data.datos.forEach(p => {
+            const fecha = new Date(p.fechaCreacionPaciente).toLocaleDateString();
+            $tbody.append(`
+                <tr>
+                    <td>${p.nombres}</td>
+                    <td>${p.apellidoPaterno}</td>
+                    <td>${p.apellidoMaterno}</td>
+                    <td>${p.celular}</td>
+                    <td>${p.idLugarNacimiento}</td>
+                    <td>${p.fechaCreacionPaciente}</td>
+                    <td>${p.motivoCita}</td>
+                     <td>${p.planAccion}</td>
+                </tr>
+            `);
+        });
+
+        paginaActual = data.paginaActual;
+        totalPaginas = data.totalPaginas;
+        actualizarPaginacion();
+    }
+
+    function actualizarPaginacion() {
+        const $paginacion = $('#paginacionPacientes');
+        $paginacion.empty();
+
+        const anterior = `<li class="page-item ${paginaActual === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" data-pagina="${paginaActual - 1}">Anterior</a>
+        </li>`;
+        $paginacion.append(anterior);
+
+        for (let i = 1; i <= totalPaginas; i++) {
+            $paginacion.append(`
+                <li class="page-item ${paginaActual === i ? 'active' : ''}">
+                    <a class="page-link" href="#" data-pagina="${i}">${i}</a>
+                </li>
+            `);
+        }
+
+        const siguiente = `<li class="page-item ${paginaActual === totalPaginas ? 'disabled' : ''}">
+            <a class="page-link" href="#" data-pagina="${paginaActual + 1}">Siguiente</a>
+        </li>`;
+        $paginacion.append(siguiente);
+    }
+
+    $(document).on('click', '#paginacionPacientes a.page-link', function (e) {
+        e.preventDefault();
+        const nuevaPagina = parseInt($(this).data('pagina'));
+        if (!isNaN(nuevaPagina) && nuevaPagina > 0 && nuevaPagina <= totalPaginas) {
+            enviarSolicitud(nuevaPagina);
+        }
+    });
+
+          $(document).on('click', '#btnExportarExcel', function () {
+        var tabla = document.getElementById("tablaPacientes");
+        if (tabla) {
+            var wb = XLSX.utils.table_to_book(tabla, {sheet:"Pacientes"});
+            XLSX.writeFile(wb, "reporte_pacientes.xlsx");
+        } else {
+            alert("No hay datos para exportar.");
+        }
+    });
+
+    function enviarSolicitud(pagina) {
+        var fechaInicio = $('#FechaInicio').val();
+        var fechaFin = $('#FechaFin').val();
+
+        $.ajax({
+            url: '@Url.Action("ReportePacientes", "Reportes")',
+            type: 'POST',
+            data: {
+                FechaInicio: fechaInicio,
+                FechaFin: fechaFin,
+                pagina: pagina,
+                '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            success: function (data) {
+                $('#mensajeError').hide();
+                $('#tablaPacientes tbody').empty();
+
+                if (data.error) {
+                    $('#mensajeError').text(data.error).show();
+                    return;
+                }
+
+                if (data.datos.length === 0) {
+                    $('#mensajeError').text('No se encontraron pacientes en el rango de fechas seleccionado').show();
+                    return;
+                }
+
+                mostrarDatos(data);
+            },
+            error: function () {
+                $('#mensajeError').text('Error al procesar la solicitud').show();
+                $('#tablaPacientes tbody').empty();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#formReporte').submit(function (e) {
+            e.preventDefault();
+            enviarSolicitud(1); // Iniciar siempre en la página 1 al buscar
+        });
+    });
+
+</script>

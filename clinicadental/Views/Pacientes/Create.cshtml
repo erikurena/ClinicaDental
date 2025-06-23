@@ -1,0 +1,144 @@
+﻿@model clinicadental.Models.Paciente
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+}
+<partial name="_Toasts"></partial>
+
+
+<form asp-controller="Pacientes" asp-action="Create" id="formCrearPaciente">
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-2">
+                <label asp-for="Sexo" class="control-label"></label>
+                <select asp-for="Sexo" class="form-control form-select" asp-items="ViewBag.Sexo"></select>               
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="FechaNacimientoPaciente" class="control-label"></label>
+                <div class="row g-2">
+                    <div class="col">
+                        <select class="form-select" id="dia">
+                            <option value="">Día</option>
+                            @for (int i = 1; i <= 31; i++)
+                            {
+                                <option value="@i">@i.ToString("D2")</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <select class="form-select" id="mes">
+                            <option value="">Mes</option>
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                <option value="@i">@i.ToString("D2")</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <select class="form-select" id="anio">
+                            <option value="">Año</option>
+                            @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="FechaNacimientoPaciente" id="FechaNacimiento" />
+                <span asp-validation-for="FechaNacimientoPaciente" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="IdLugarNacimiento" class="control-label"></label>
+                <input asp-for="IdLugarNacimiento" class="form-control " />
+                <span asp-validation-for="IdLugarNacimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="IdEstadoCivil" class="control-label"></label>
+                <select asp-for="IdEstadoCivil" class="form-control form-select" asp-items="ViewBag.IdEstadoCivil"></select>
+            </div>         
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="ApellidoPaterno" class="control-label"></label>
+                <input asp-for="ApellidoPaterno" class="form-control" />
+                <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="ApellidoMaterno" class="control-label"></label>
+                <input asp-for="ApellidoMaterno" class="form-control" />
+                <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="Nombres" class="control-label"></label>
+                <input asp-for="Nombres" class="form-control" />
+                <span asp-validation-for="Nombres" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Celular" class="control-label"></label>
+                <input asp-for="Celular" class="form-control" />
+                <span asp-validation-for="Celular" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-12 col-lg-9">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="IdGradoInstruccion" class="control-label"></label>
+                <select asp-for="IdGradoInstruccion" class="form-control form-select" asp-items="ViewBag.IdGradoInstruccion"></select>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-9">
+                <label asp-for="Ocupacion" class="control-label"></label>
+                <input asp-for="Ocupacion" class="form-control" />
+                <span asp-validation-for="Ocupacion" class="text-danger"></span>
+                <br />
+            </div>           
+        </div>
+        <div class="row d-flex modal-footer ">
+            <div class="col-auto ">
+                <button type="button" class="btn btn-secondary fondo-historial" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+            <div class="col-auto form-group">
+                <button type="submit"  class="btn btn-agregar" id="btnCrearPaciente" >Crear</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#formCrearPaciente').on('submit', function () {
+            var boton = $('#btnCrearPaciente');
+            boton.prop('disabled', true);
+            boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creando...');
+         
+
+            setTimeout(function () {
+                boton.prop('disabled', false);
+                boton.html('Crear');
+            }, 5000); // 5000 milisegundos = 5 segundos
+        });
+    });
+</script>
+<script>
+    function actualizarFechaNacimiento() {
+        const dia = document.getElementById('dia').value;
+        const mes = document.getElementById('mes').value;
+        const anio = document.getElementById('anio').value;
+
+        if (dia && mes && anio) {            
+            const fecha = `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+            document.getElementById('FechaNacimiento').value = fecha;
+        }
+    }
+
+    document.getElementById('dia').addEventListener('change', actualizarFechaNacimiento);
+    document.getElementById('mes').addEventListener('change', actualizarFechaNacimiento);
+    document.getElementById('anio').addEventListener('change', actualizarFechaNacimiento);
+</script>
+
+
+
+

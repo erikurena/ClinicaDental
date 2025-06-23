@@ -1,0 +1,54 @@
+﻿@model clinicadental.Models.Avancetratamiento
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = ""; // Correcto, no necesita layout
+}
+<form id="avanceForm" asp-action="Create" asp-controller="Avancetratamientoes" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="IdTratamiento" type="hidden" value="@Model?.IdTratamiento" />
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div class="form-group col-6">
+                <label asp-for="FechaInicio" class="control-label"></label>
+                <input type="date" asp-for="FechaInicio" class="form-control" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="FechaConclusion" class="control-label"></label>
+                <input type="date" asp-for="FechaConclusion" class="form-control" />
+                <span asp-validation-for="FechaConclusion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PiezaDental" class="control-label"></label>
+                <select asp-for="PiezaDental" id="piezaDentalId" name="piezaDentalId" class="form-control form-select" asp-items="ViewBag.PiezaDental">
+                </select>
+                <span asp-validation-for="PiezaDental" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Avance" class="control-label"></label>
+                <input type="text" asp-for="Avance" class="form-control" />
+                <span asp-validation-for="Avance" class="text-danger"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="btnaceptaravance" >Aceptar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#avanceForm').on('submit', function () {
+            var boton = $('#btnaceptaravance');
+            boton.prop('disabled', true);
+            boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Agregando...');
+
+            setTimeout(function () {
+                boton.prop('disabled', false);
+                boton.html('Aceptar');
+            }, 5000); // 5000 milisegundos = 5 segundos
+        });
+    });
+</script>

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<clinicadental.Models.Antecedentegeneral>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Alergia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoAlergia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HemorragiaDental)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspecificacionHemorragia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Embarazo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SemanaEmbarazo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alergia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoAlergia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HemorragiaDental)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EspecificacionHemorragia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Embarazo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SemanaEmbarazo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdAntecedenteGeneral">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdAntecedenteGeneral">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdAntecedenteGeneral">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

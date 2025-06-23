@@ -1,0 +1,55 @@
+﻿@model clinicadental.Models.Antecedentehigieneoral
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Antecedentehigieneoral</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdHigieneBucal)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdHigieneBucal)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FrecuenciaCepilladoDental)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FrecuenciaCepilladoDental)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CepilloDental)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CepilloDental)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EnjuagueBucal)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EnjuagueBucal)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdHiloDental)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdHiloDental)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SangradoEncias)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SangradoEncias)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdAntecedenteHigieneOral">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

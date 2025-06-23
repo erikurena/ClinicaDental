@@ -1,0 +1,117 @@
+﻿@model clinicadental.Models.Paciente
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var colSTitulo = 6;
+    var colMTitulo = 4;
+    var colLTitulo = 3;
+
+    var colSCont = 6;
+    var colMCont = 8;
+    var colLCont = 3;
+}
+<partial name="_Toasts"></partial>
+
+
+<h1 class="text-center">ELIMINAR PACIENTE</h1>
+
+
+<div class="card fondo-historial">
+    <div class="card-header">
+        <h4>Paciente</h4>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.Sexo)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.Sexo)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.ApellidoMaterno)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.ApellidoMaterno)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.ApellidoPaterno)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.ApellidoPaterno)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.Celular)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.Celular)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.Direccion)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.Direccion)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.FechaNacimientoPaciente)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.FechaNacimientoPaciente)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.Nombres)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.Nombres)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.Ocupacion)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.Ocupacion)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.IdEstadoCivil)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.IdEstadoCivil)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.IdGradoInstruccion)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.IdGradoInstruccion)
+            </dd>
+            <dt class="col-@colSTitulo col-sm-@colSTitulo col-md-@colMTitulo col-lg-@colLTitulo">
+                @Html.DisplayNameFor(model => model.IdLugarNacimiento)
+            </dt>
+            <dd class="col-@colSCont col-sm-@colSCont col-md-@colMCont col-lg-@colLCont">
+                @Html.DisplayFor(model => model.IdLugarNacimiento)
+            </dd>
+        </dl>
+        <form asp-action="Delete" id="formEliminarPaciente">
+            <a asp-action="Index" class="btn btn-secondary">Volver</a> |
+            <input type="hidden" asp-for="CodigoPaciente" />
+            <button type="submit"  class="btn btn-danger" id="btnEliminarPaciente" >Eliminar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#formEliminarPaciente').on('submit', function () {
+            var boton = $('#btnEliminarPaciente');
+            boton.prop('disabled', true);
+            boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Eliminando...');
+
+           const errorToast = new bootstrap.Toast(document.getElementById('successToastDelete'));
+            errorToast.show();
+
+            setTimeout(function () {
+                boton.prop('disabled', false);
+                boton.html('Eliminar');
+            }, 5000); // 5000 milisegundos = 5 segundos
+        });
+    });
+</script>

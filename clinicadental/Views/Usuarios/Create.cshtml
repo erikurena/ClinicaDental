@@ -1,0 +1,76 @@
+﻿@model clinicadental.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CREAR</h1>
+
+<div class="  fondo-historial">
+    <div class="card-header cabecera-card">
+        <h4>Usuario</h4>
+    </div>
+    <div class="card-body bg-white">
+        <form asp-action="Create">
+            <div class="d-flex flex-column">
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="PrimerNombre" class="control-label"></label>
+                        <input asp-for="PrimerNombre" class="form-control" />
+                        <span asp-validation-for="PrimerNombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="SegundoNombre" class="control-label"></label>
+                        <input asp-for="SegundoNombre" class="form-control" />
+                        <span asp-validation-for="SegundoNombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="ApellidoPaterno" class="control-label"></label>
+                        <input asp-for="ApellidoPaterno" class="form-control" />
+                        <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="ApellidoMaterno" class="control-label"></label>
+                        <input asp-for="ApellidoMaterno" class="form-control" />
+                        <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="Celular" class="control-label"></label>
+                        <input asp-for="Celular" class="form-control" />
+                        <span asp-validation-for="Celular" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="FechaNacimiento" class="control-label"></label>
+                        <input type="date" asp-for="FechaNacimiento" class="form-control" />
+                        <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="Especialidad" class="control-label"></label>
+                        <input asp-for="Especialidad" class="form-control" />
+                        <span asp-validation-for="Especialidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                        <label asp-for="Sexo" class="control-label"></label>
+                        <select asp-for="Sexo" class="form-control form-select" asp-items="ViewBag.Sexo"></select>
+                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row d-flex">
+                    <div class="col-auto  form-group">
+                        <br />
+                        <button type="submit" value="Crear" class="btn btn-primary fondo-historial"><i class="bi bi-plus-circle"></i> Crear </button>
+                    </div>
+                    <div class="col-auto">
+                        <br />
+                        <a asp-action="Index" class="btn btn-outline-secondary fondo-historial"> <i class="bi bi-box-arrow-left"></i> Volver</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

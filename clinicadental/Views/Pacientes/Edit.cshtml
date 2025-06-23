@@ -1,0 +1,101 @@
+﻿@model clinicadental.Models.Paciente
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+}
+<partial name="_Toasts"></partial>
+
+<form asp-controller="Pacientes" asp-action="Edit" method="post" id="formModificarPaciente">
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdPaciente" />
+            <input type="hidden" asp-for="CodigoPaciente" />
+            <input type="hidden" asp-for="FechaCreacionPaciente"/>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-2">
+                <label asp-for="Sexo" class="control-label"></label>
+                <select asp-for="Sexo" class="form-control form-select" asp-items="ViewBag.Sexo"></select>
+                <span asp-validation-for="Sexo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="FechaNacimientoPaciente" class="control-label"></label>
+                <input type="date" asp-for="FechaNacimientoPaciente" class="form-control" id="FechaNacimientoPaciente" />
+                <span asp-validation-for="FechaNacimientoPaciente" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="IdLugarNacimiento" class="control-label"></label>
+                <input asp-for="IdLugarNacimiento" class="form-control " />
+                <span asp-validation-for="IdLugarNacimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="IdEstadoCivil" class="control-label"></label>
+                <select asp-for="IdEstadoCivil" class="form-control form-select" asp-items="ViewBag.IdEstadoCivil"></select>
+                <span asp-validation-for="IdEstadoCivil" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="ApellidoPaterno" class="control-label"></label>
+                <input asp-for="ApellidoPaterno" class="form-control" />
+                <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="ApellidoMaterno" class="control-label"></label>
+                <input asp-for="ApellidoMaterno" class="form-control" />
+                <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                <label asp-for="Nombres" class="control-label"></label>
+                <input asp-for="Nombres" class="form-control" />
+                <span asp-validation-for="Nombres" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Celular" class="control-label"></label>
+                <input asp-for="Celular" class="form-control" />
+                <span asp-validation-for="Celular" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-9">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="IdGradoInstruccion" class="control-label"></label>
+                <select asp-for="IdGradoInstruccion" class="form-control form-select" asp-items="ViewBag.IdGradoInstruccion"></select>
+                <span asp-validation-for="IdGradoInstruccion" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-9">
+                <label asp-for="Ocupacion" class="control-label"></label>
+                <input asp-for="Ocupacion" class="form-control" />
+                <span asp-validation-for="Ocupacion" class="text-danger"></span>
+                <br />
+            </div>
+        </div>
+        <div class="row d-flex modal-footer">
+            <div class="col">
+                <br />
+                <a asp-action="Index" class="btn btn-outline-secondary fondo-historial"> <i class="bi bi-box-arrow-left"></i> Volver</a>
+            </div>
+            <div class=" col-auto form-group ">
+                <br />
+                <input type="submit" value="Guardar" class="btn btn-agregar fondo-historial" id="btnModificarPaciente"/>
+            </div>         
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#formModificarPaciente').on('submit', function () {
+            var boton = $('#btnModificarPaciente');
+            boton.prop('disabled', true);
+            boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Modificando...');
+
+             const modificarToast = new bootstrap.Toast(document.getElementById('successToastModificar'));
+            modificarToast.show();
+
+            setTimeout(function () {
+                boton.prop('disabled', false);
+                boton.html('Guardar');
+            }, 5000); // 5000 milisegundos = 5 segundos
+        });
+    });
+</script>

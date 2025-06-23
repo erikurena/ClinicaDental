@@ -1,0 +1,48 @@
+﻿@model clinicadental.Models.Examenintraoral
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+}
+
+<h4>Examenintraoral</h4>
+<hr />
+<div class="d-flex flex-column">
+    <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Labio" class="control-label"></label>
+                <input asp-for="Labio" class="form-control" />
+                <span asp-validation-for="Labio" class="text-danger"></span>
+            </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Lengua" class="control-label"></label>
+                <input asp-for="Lengua" class="form-control" />
+                <span asp-validation-for="Lengua" class="text-danger"></span>
+            </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Paladar" class="control-label"></label>
+                <input asp-for="Paladar" class="form-control" />
+                <span asp-validation-for="Paladar" class="text-danger"></span>
+            </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="PisoDeBoca" class="control-label"></label>
+                <input asp-for="PisoDeBoca" class="form-control" />
+                <span asp-validation-for="PisoDeBoca" class="text-danger"></span>
+            </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="MucosaYugal" class="control-label"></label>
+                <input asp-for="MucosaYugal" class="form-control" />
+                <span asp-validation-for="MucosaYugal" class="text-danger"></span>
+            </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="Encia" class="control-label"></label>
+                <input asp-for="Encia" class="form-control" />
+                <span asp-validation-for="Encia" class="text-danger"></span>
+            </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+                <label asp-for="ProtesisDental" class="control-label"></label>
+            <select asp-for="ProtesisDental" class="form-control form-select" asp-items="ViewBag.Protesis"></select>
+            </div>
+    </div>
+</div>

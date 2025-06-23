@@ -1,0 +1,51 @@
+﻿@model clinicadental.Models.Tratamiento
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+}
+
+<form id="tratamientoForm" asp-action="Create" method="post">
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="IdHistorialClinico" id="IdHistorialClinico" type="hidden" />
+            <div class="form-group col-12 ">
+                <label asp-for="Subjetivo" class="control-label"></label>
+                <input asp-for="Subjetivo" class="form-control" />
+                <span asp-validation-for="Subjetivo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 ">
+                <label asp-for="Objetivo" class="control-label"></label>
+                <input asp-for="Objetivo" class="form-control" />
+                <span asp-validation-for="Objetivo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 ">
+                <label asp-for="Analisis" class="control-label"></label>
+                <input asp-for="Analisis" class="form-control" />
+                <span asp-validation-for="Analisis" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 ">
+                <label asp-for="PlanAccion" class="control-label"></label>
+                <input asp-for="PlanAccion" class="form-control" />
+                <span asp-validation-for="PlanAccion" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 ">
+                <label asp-for="PresupuestoTotal" class="control-label"></label>
+                <input type="text" asp-for="PresupuestoTotal" class="form-control" />
+                <span asp-validation-for="PresupuestoTotal" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 ">
+                <label asp-for="ACuenta" class="control-label"></label>
+                <input type="text" asp-for="ACuenta" class="form-control" />
+                <span asp-validation-for="ACuenta" class="text-danger"></span>
+            </div>       
+        </div>
+    </div>   
+    <hr />
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id="saveTratamiento" >Crear</button>
+    </div>
+</form>
+

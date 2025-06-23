@@ -1,0 +1,39 @@
+﻿@model clinicadental.Models.Antecedentegeneral
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+}
+
+<div class="d-flex flex-column">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="Alergia" class="control-label"></label>
+            <select asp-for="Alergia" class="form-control form-select" asp-items="ViewBag.IdAlergia"></select>
+        </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="TipoAlergia" class="control-label"></label>
+            <input asp-for="TipoAlergia" class="form-control" />
+            <span asp-validation-for="TipoAlergia" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="HemorragiaDental" class="control-label"></label>
+            <select asp-for="HemorragiaDental" class="form-control form-select" asp-items="ViewBag.IdHemorragia"></select>
+        </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="EspecificacionHemorragia" class="control-label"></label>
+            <select asp-for="EspecificacionHemorragia" class="form-control form-select" asp-items="ViewBag.IdEspecificacionHemorragia"></select>
+        </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="Embarazo" class="control-label"></label>
+            <select asp-for="Embarazo" class="form-control form-select" asp-items="ViewBag.IdEmbarazo"></select>
+        </div>
+        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-3">
+            <label asp-for="SemanaEmbarazo" class="control-label"></label>
+            <input asp-for="SemanaEmbarazo" class="form-control" />
+            <span asp-validation-for="SemanaEmbarazo" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,88 @@
+﻿html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+.fondo {
+    background-image: url('/Photos/Login/ImgLogin.jpg');
+    background-size: cover; /* mejor cover */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    animation: parallaxEffect 40s infinite alternate ease-in-out ;
+    min-height: 100vh;
+}
+/* Tablets */
+@media (max-width: 1026px) {
+    .fondo {
+        background-size: cover;
+        background-attachment: scroll; /* fixed puede fallar en tablets */
+        animation: none !important;
+    }
+    .textologin {
+        font-size: 33px;
+    }
+}
+/* Móviles */
+@media (max-width: 767px) {
+    .fondo {
+        background-size: cover;
+        background-attachment: scroll;
+        animation: none !important;
+    }
+    .textologin {
+        display: none;
+    }
+}
+/* Móviles muy pequeños */
+@media (max-width: 431px) {
+    .fondo {
+        background-color: #ededed;
+        background-image: none;
+        animation: none !important;
+    }
+    .titulologin {
+        font-size: 45px !important;
+    }
+    .textologin {
+        display: none;
+    }
+}
+.fondoFormLogin{
+    background-color: #ffffff22 ;
+}
+@keyframes parallaxEffect {
+    0% {
+        background-position: center top;
+    }
+    50% {
+        background-position: center center;
+    }
+    100% {
+        background-position: center bottom;
+    }
+}
+section.primarySeccion {
+    flex: 1;
+    min-height: 100%;
+}
+@font-face {
+    font-family: 'tituloCurvo';
+    src: url('/fonts/DancingScript.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.imgLogin {    
+    border-image-repeat: stretch;
+}
+.CrearCuenta {
+    background-image: url('/Photos/Login/CrearCuetna.jpg');
+    background-size: 100%; /* Un poco más grande que cover */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+

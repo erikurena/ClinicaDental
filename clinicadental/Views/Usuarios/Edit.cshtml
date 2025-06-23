@@ -1,0 +1,116 @@
+﻿@model clinicadental.Models.Usuario
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+}
+@{
+    var fecha = Model.FechaNacimiento;
+    var diaSel = fecha?.Day.ToString("D2");
+    var mesSel = fecha?.Month.ToString("D2");
+    var anioSel = fecha?.Year.ToString();
+}
+
+<form asp-action="Edit" method="post">
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdUsuario" />
+            <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="PrimerNombre" class="control-label"></label>
+                <input asp-for="PrimerNombre" class="form-control" />
+                <span asp-validation-for="PrimerNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="SegundoNombre" class="control-label"></label>
+                <input asp-for="SegundoNombre" class="form-control" />
+                <span asp-validation-for="SegundoNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="ApellidoPaterno" class="control-label"></label>
+                <input asp-for="ApellidoPaterno" class="form-control" />
+                <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="ApellidoMaterno" class="control-label"></label>
+                <input asp-for="ApellidoMaterno" class="form-control" />
+                <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="Celular" class="control-label"></label>
+                <input asp-for="Celular" class="form-control" />
+                <span asp-validation-for="Celular" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="FechaNacimiento" class="control-label"></label>
+                <div class="row g-2">
+                    <div class="col">
+                        <select class="form-select" id="dia">
+                            <option value="">Día</option>
+                            @for (int i = 1; i <= 31; i++)
+                            {
+                                var val = i.ToString("D2");
+                                <option value="@val" selected="@(val == diaSel ? "selected" : null)">@val</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <select class="form-select" id="mes">
+                            <option value="">Mes</option>
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                var val = i.ToString("D2");
+                                <option value="@val" selected="@(val == mesSel ? "selected" : null)">@val</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <select class="form-select" id="anio">
+                            <option value="">Año</option>
+                            @for (int i = DateTime.Now.Year; i >= 1930; i--)
+                            {
+                                <option value="@i" selected="@(i.ToString() == anioSel ? "selected" : null)">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="FechaNacimiento" id="FechaNacimiento" />
+                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="Especialidad" class="control-label"></label>
+                <input asp-for="Especialidad" class="form-control" />
+                <span asp-validation-for="Especialidad" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-12 col-sm-12 col-md-6 col-lg-6">
+                <label asp-for="Sexo" class="control-label"></label>
+                <select asp-for="Sexo" class="form-control form-select" asp-items="ViewBag.Sexo"></select>
+                <span asp-validation-for="Sexo" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function actualizarFechaNacimiento() {
+        const dia = document.getElementById('dia').value;
+        const mes = document.getElementById('mes').value;
+        const anio = document.getElementById('anio').value;
+
+        if (dia && mes && anio) {          
+            const fecha = `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+            document.getElementById('FechaNacimiento').value = fecha;
+        }
+        else{
+            document.getElementById('FechaNacimiento').value = '';
+        }
+    }
+
+    document.getElementById('dia').addEventListener('change', actualizarFechaNacimiento);
+    document.getElementById('mes').addEventListener('change', actualizarFechaNacimiento);
+    document.getElementById('anio').addEventListener('change', actualizarFechaNacimiento);
+
+    window.addEventListener('DOMContentLoaded', actualizarFechaNacimiento);
+</script>

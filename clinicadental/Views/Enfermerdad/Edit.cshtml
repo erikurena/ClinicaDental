@@ -1,0 +1,28 @@
+﻿@using clinicadental.Dtos
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+}
+
+<div class="d-flex flex-column">
+    <div class="row">
+        <div class="form-group">
+            <label class="control-label">Enfermedades</label>
+        </div>
+        <div class="form-group d-flex flex-wrap">
+            @if (ViewBag.Enfermedades != null)
+            {
+                var enfermedades = (List<AnteEnfermedadDto>)ViewBag.Enfermedades;
+                foreach (var enfermedad in enfermedades)
+                {
+                    <div class="form-group form-check col-6 col-sm-6 col-md-4 col-lg-3">
+                        <input type="checkbox" name="enfermedadSeleccionada" value="@enfermedad.IdEnfermerdad" class="form-check-input" @(enfermedad.Seleccionada ? "checked" : "") />
+                        <input type="hidden" name="IdAntecedente_@enfermedad.IdEnfermerdad" value="@enfermedad.IdAntecedenteEnfermedad" />
+                        <label class="form-check-label">@enfermedad.NombreEnfermedad</label>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,260 @@
+﻿@model IEnumerable<clinicadental.Models.Clinica>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center"> CLINICA</h1>
+
+@if (!Model.Any())
+{
+    <p>
+        <button type="button" class="btn btn-primary @(Model.Any() ? "disabled" : "")" onclick="abrirCrearModal()" data-bs-toggle="modal" data-bs-target="#createModal">
+            Create New
+        </button>
+    </p>
+}
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header card-header">
+                <h5 class="modal-title" id="createModalLabel">Crear Clinica</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalCrearContenido">
+            </div>
+            <!-- Agrega más campos según tu modelo -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarCrearClinica()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@foreach (var item in Model)
+{
+    <button type="button" class="btn fondo-historial btn-historial mb-3" onclick="abrirModificarClinica(@item.IdClinica) " data-bs-toggle="modal" data-bs-target="ModificarModal">
+        <i class="bi bi-person-fill-gear"></i> Modificar Clinica
+    </button>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Elemento 1 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 2 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Nit)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Nit)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 3 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Ujsedes)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Ujsedes)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 4 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Pmc)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Pmc)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 5 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Direccion)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 6 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Celular)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Celular)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 7 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.FotoClinica)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.FotoClinica)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 8 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Ciudad)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Ciudad)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elemento 9 -->
+            <div class="col-12 col-sm-6 col-md-4 mb-4">
+                <div class="subtituloTexto text-center">
+                    @Html.DisplayNameFor(model => model.Pais)
+                    <hr class="m-1" />
+                </div>
+                <div class="card text-center">
+                    <div class="card-body color-body">
+                        @Html.DisplayFor(modelItem => item.Pais)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+  
+
+    <div class="modal fade" id="ModificarModal" tabindex="-1" aria-labelledby="ModificarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header card-header">
+                    <h5 class="modal-title" id="ModificarModalLabel">Modificar Clinica</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalModificarContenido">
+                </div>
+                <!-- Agrega más campos según tu modelo -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="GuardarModificarClinica()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*    <a asp-action="Delete" asp-route-id="@item.IdClinica">Delete</a>    *@
+
+
+}
+
+
+
+<script>
+    function abrirCrearModal() {
+        $.ajax({
+            url: '@Url.Action("Create", "Clinicas")',
+            type: 'GET',
+            success: function (response) {
+                $('#modalCrearContenido').html(response);
+                $('#createModal').modal('show');
+            },
+            error: function () {
+                alert('Error al cargar el formulario.');
+            }
+        });
+    }
+    function GuardarCrearClinica() {
+        var form = $('#modalCrearContenido').find('form');
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function (response) {
+                if (response.success) {
+                    $('#createModal').modal('hide');
+                    location.reload(); // O actualiza la UI como prefieras
+                } else {
+                    $('#modalCrearContenido .modal-body').html(response); // Muestra errores
+                }
+            },
+            error: function () {
+                alert('Error submitting the form.');
+            }
+        });
+    }
+    function abrirModificarClinica(idClinica) {
+        $.ajax({
+            url: '@Url.Action("Edit", "Clinicas")',
+            type: 'GET',
+            data: { id: idClinica },
+            success: function (data) {
+                $('#modalModificarContenido').html(data);
+                $('#ModificarModal').modal('show');
+            },
+            error: function () {
+                alert('Error al cargar el formulario.');
+            }
+        });
+    }
+
+    function GuardarModificarClinica() {
+        var form = $('#modalModificarContenido').find('form');
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function (response) {
+                if (response.success) {
+                    $('#ModificarModal').modal('hide');
+                    location.reload(); // O actualiza la UI como prefieras
+                } else {
+                    $('#modalModificarContenido .modal-body').html(response); // Muestra errores
+                }
+            },
+            error: function () {
+                alert('Error submitting the form.');
+            }
+        });
+    }
+
+</script>

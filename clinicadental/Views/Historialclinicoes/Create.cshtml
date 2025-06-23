@@ -1,0 +1,84 @@
+﻿@model clinicadental.Models.Historialclinico
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="text-center">CREAR HISTORIAL CLINICO</h1>
+<div class="  fondo-historial">
+    <div class="card-header cabecera-card">
+        <h4>Historialclinico</h4>
+    </div>
+    <div class="card-body bg-white">
+        <form asp-action="Create" id="formCrearHistorialClinica">
+            <div class="d-flex flex-column">
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="IdPaciente" value="@Model.IdPaciente" type="hidden" />
+                    <div class="form-group col-12 col-sm-12 col-md-3 col-lg-3">
+                        <label asp-for="Ci" class="control-label"></label>
+                        <input asp-for="Ci" class="form-control" />
+                        <span asp-validation-for="Ci" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-12 col-sm-12 col-md-9 col-lg-9">
+                        <label asp-for="MotivoCita" class="control-label"></label>
+                        <input asp-for="MotivoCita" class="form-control" />
+                        <span asp-validation-for="MotivoCita" class="text-danger"></span>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Antecedentepatologico/Create.cshtml" model="new Antecedentepatologico()"></partial>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Examenextraorals/Create.cshtml" model="new Examenextraoral()"></partial>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Examenintraorals/Create.cshtml" model="new Examenintraoral()"></partial>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Antecedentebucodentals/Create.cshtml" model="new Antecedentebucodental()"></partial>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <partial name="~/Views/Antecedentehigieneorals/Create.cshtml" model="new Antecedentehigieneoral()"></partial>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observacion" class="control-label"></label>
+                        <input asp-for="Observacion" class="form-control" />
+                        <span asp-validation-for="Observacion" class="text-danger"></span>
+                        <br />
+                    </div>
+                </div>
+                <div class=" d-flex flex-column">
+                    <div class="row">
+                        <div class="col-auto ">                        
+                            <a class="btn btn-outline-dark fondo-historial" onclick="window.history.back();">Volver</a>
+                        </div>
+                        <div class="col-auto form-group ">
+                            <button type="submit" value="Crear" class="btn btn-primary fondo-historial" id="btnCrearHistorialClinica" >Crear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#formCrearHistorialClinica').on('submit', function () {
+            var boton = $('#btnCrearHistorialClinica');
+            boton.prop('disabled', true);
+            boton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creando...');
+
+            setTimeout(function () {
+                boton.prop('disabled', false);
+                boton.html('Crear');
+            }, 5000); // 5000 milisegundos = 5 segundos
+        });
+    });
+</script>

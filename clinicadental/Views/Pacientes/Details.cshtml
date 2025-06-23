@@ -1,0 +1,166 @@
+﻿@model clinicadental.Dtos.PacienteHistorialDto
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<partial name="_Toasts"></partial>
+<h1 class="text-center  p-2">EXPEDIENTE CLINICO</h1>
+
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.ApellidoPaterno)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center ">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.ApellidoPaterno)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.ApellidoMaterno)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.ApellidoMaterno)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.Nombres)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.Nombres)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.Sexo)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.Sexo)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-6 mb-6">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.Direccion)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.Direccion)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.FechaNacimientoPaciente)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.FechaNacimientoPaciente)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.IdLugarNacimiento)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.IdLugarNacimiento)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.Celular)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.Celular)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.IdGradoInstruccion)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.IdGradoInstruccion)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.Ocupacion)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.Ocupacion)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="subtituloTexto text-center">
+            @Html.DisplayNameFor(model => model.Paciente.IdEstadoCivil)
+            <hr class="m-1" />
+        </div>
+        <div class="card text-center">
+            <div class="card-body p-2 color-body">
+                @Html.DisplayFor(model => model.Paciente.IdEstadoCivil)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex flex-column">
+    <div class="row ">
+        <div class="col-auto">
+            <a asp-controller="HistorialClinicoes" asp-action="Create" asp-route-id="@Model?.Paciente.IdPaciente" class="col-auto btn btn-success fondo-historial ">
+                <i class="bi bi-h-square fs-5"></i>  Nueva Historia Clinica
+            </a>
+        </div>
+        @*  <div class="col-auto">
+        <a href="#" class="col-auto btn fondo-historial text-white" style="background-color:#2e7d7b">
+        <i class="bi bi-copy fs-5"></i>  Copiar Ultima Historia Clinica
+        </a>
+        </div>*@
+    </div>
+    <br />
+
+    <div class="row ">
+        <div class="col-12 ">
+            <partial name="~/Views/Pacientes/ListaHistorial.cshtml" model="Model"></partial>
+        </div>
+    </div>
+</div>
+

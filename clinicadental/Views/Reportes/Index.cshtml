@@ -1,0 +1,64 @@
+﻿@using clinicadental.Dtos
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-tabs .nav-link {
+        border: none;
+        border-bottom: 3px solid transparent;
+        color: #555;
+        transition: all 0.3s ease;
+    }
+    .custom-tabs .nav-link.active {
+        border-bottom: 3px solid #0d6efd; /* Color azul de Bootstrap */
+        background-color: transparent;
+        color: #0d6efd;
+    }
+    .custom-tabs .nav-link:hover {
+        color: #0d6efd;
+    }
+</style>
+
+<h1 class="text-center">REPORTES</h1>
+
+<!-- Tabs -->
+<ul class="nav nav-tabs custom-tabs " id="tabsContainer" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="false">
+            Descripción general
+        </button>      
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link " id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button" role="tab" aria-controls="content" aria-selected="true">
+            Contenido
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="audience-tab" data-bs-toggle="tab" data-bs-target="#audience" type="button" role="tab" aria-controls="audience" aria-selected="false">
+            Público
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="research-tab" data-bs-toggle="tab" data-bs-target="#research" type="button" role="tab" aria-controls="research" aria-selected="false">
+            Tendencias
+        </button>
+    </li>
+</ul>
+
+<!-- Contenido -->
+<div class="tab-content mt-3" id="tabsContent">
+    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+        <partial name="ReportePaciente.cshtml" model="new MostrarReportes()" />
+    </div>
+    <div class="tab-pane fade show" id="content" role="tabpanel" aria-labelledby="content-tab">
+        <p>Contenido principalas</p>
+    </div>
+    <div class="tab-pane fade" id="audience" role="tabpanel" aria-labelledby="audience-tab">
+        <p>Contenido de Público</p>
+    </div>
+    <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
+        <p>Contenido de Tendencias</p>
+    </div>
+</div>
